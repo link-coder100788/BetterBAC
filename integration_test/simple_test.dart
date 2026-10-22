@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:apple_coach/apple_coach.dart';
 
 import 'package:betterbac/main.dart';
+import 'package:betterbac/screens/dev_menu_screen.dart';
 import 'package:betterbac/screens/tutorial_screen.dart';
 import 'package:betterbac/src/rust/api/app.dart';
 import 'package:betterbac/src/rust/api/calendar.dart';
 import 'package:betterbac/src/rust/api/cas.dart';
 import 'package:betterbac/src/rust/api/coach.dart';
+import 'package:betterbac/src/rust/api/dev.dart';
 import 'package:betterbac/src/rust/api/settings.dart';
 import 'package:betterbac/src/rust/api/tutorial.dart';
 import 'package:betterbac/src/rust/api/types.dart';
@@ -176,5 +178,47 @@ void main() {
     final status = await tutorialStatus();
     expect(status.needsTour(), isFalse);
     expect(status.seenVersion, status.currentVersion);
+  });
+
+  testWidgets('Developer menu: seed, inspect, query, clear', (tester) async {
+    expect(devMenuEnabled(), isTrue);
+
+    await devSeedSampleData();
+    final d = await getDashboard();
+    expect(d.streak.current, greaterThanOrEqualTo(7));
+    expect(d.crunch, isNotNull);
+
+    final db = await devDbOverview();
+    expect(db.schemaVersion, 2);
+    final reflections = db.tables.firstWhere((t) => t.name == 'reflections');
+    expect(reflections.rows.toInt(), greaterThanOrEqualTo(4));
+
+    final page = await devTable(table: 'experiences', offset: 0, limit: 10);
+    expect(page.columns, contains('title'));
+    expect(page.rows, isNotEmpty);
+    expect(
+      (await devQuery(sql: 'SELECT COUNT(*) FROM events')).rows.single.single,
+      isNot('0'),
+    );
+    await expectLater(devQuery(sql: 'DELETE FROM events'), throwsA(anything));
+
+    // The menu renders at phone size without overflow.
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(390, 844);
+    addTearDown(tester.view.reset);
+    await tester.pumpWidget(
+      MaterialApp(theme: buildTheme(), home: const DevMenuScreen()),
+    );
+    await tester.pump();
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 300)));
+    await tester.pump();
+    expect(find.text('Developer menu'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    await devClearAll();
+    final empty = await getDashboard();
+    expect(empty.totalXp, 0);
+    expect(empty.displayName, '');
+    expect(await listExperiences(), isEmpty);
   });
 }

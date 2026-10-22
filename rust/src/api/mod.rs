@@ -6,6 +6,7 @@ pub mod app;
 pub mod calendar;
 pub mod cas;
 pub mod coach;
+pub mod dev;
 pub mod settings;
 pub mod tutorial;
 pub mod types;

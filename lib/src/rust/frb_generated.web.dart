@@ -10,6 +10,7 @@ import 'api/app.dart';
 import 'api/calendar.dart';
 import 'api/cas.dart';
 import 'api/coach.dart';
+import 'api/dev.dart';
 import 'api/settings.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
@@ -78,6 +79,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   TutorialStatus dco_decode_box_autoadd_tutorial_status(dynamic raw);
 
   @protected
+  BigInt dco_decode_box_autoadd_u_64(dynamic raw);
+
+  @protected
   CalendarEvent dco_decode_calendar_event(dynamic raw);
 
   @protected
@@ -103,6 +107,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   DaySummary dco_decode_day_summary(dynamic raw);
+
+  @protected
+  DbOverview dco_decode_db_overview(dynamic raw);
+
+  @protected
+  DevTable dco_decode_dev_table(dynamic raw);
 
   @protected
   EventCategory dco_decode_event_category(dynamic raw);
@@ -162,6 +172,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<LearningOutcome> dco_decode_list_learning_outcome(dynamic raw);
 
   @protected
+  List<List<String>> dco_decode_list_list_String(dynamic raw);
+
+  @protected
   List<OutcomeCoverage> dco_decode_list_outcome_coverage(dynamic raw);
 
   @protected
@@ -175,6 +188,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<StrandCount> dco_decode_list_strand_count(dynamic raw);
+
+  @protected
+  List<TableInfo> dco_decode_list_table_info(dynamic raw);
 
   @protected
   List<TutorialStep> dco_decode_list_tutorial_step(dynamic raw);
@@ -204,6 +220,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LearningOutcome? dco_decode_opt_box_autoadd_learning_outcome(dynamic raw);
 
   @protected
+  BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
+
+  @protected
   OutcomeCoverage dco_decode_outcome_coverage(dynamic raw);
 
   @protected
@@ -228,6 +247,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   StreakInfo dco_decode_streak_info(dynamic raw);
 
   @protected
+  TableInfo dco_decode_table_info(dynamic raw);
+
+  @protected
   TipKind dco_decode_tip_kind(dynamic raw);
 
   @protected
@@ -241,6 +263,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int dco_decode_u_32(dynamic raw);
+
+  @protected
+  BigInt dco_decode_u_64(dynamic raw);
 
   @protected
   int dco_decode_u_8(dynamic raw);
@@ -313,6 +338,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  BigInt sse_decode_box_autoadd_u_64(SseDeserializer deserializer);
+
+  @protected
   CalendarEvent sse_decode_calendar_event(SseDeserializer deserializer);
 
   @protected
@@ -338,6 +366,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   DaySummary sse_decode_day_summary(SseDeserializer deserializer);
+
+  @protected
+  DbOverview sse_decode_db_overview(SseDeserializer deserializer);
+
+  @protected
+  DevTable sse_decode_dev_table(SseDeserializer deserializer);
 
   @protected
   EventCategory sse_decode_event_category(SseDeserializer deserializer);
@@ -403,6 +437,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  List<List<String>> sse_decode_list_list_String(SseDeserializer deserializer);
+
+  @protected
   List<OutcomeCoverage> sse_decode_list_outcome_coverage(
     SseDeserializer deserializer,
   );
@@ -418,6 +455,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<StrandCount> sse_decode_list_strand_count(SseDeserializer deserializer);
+
+  @protected
+  List<TableInfo> sse_decode_list_table_info(SseDeserializer deserializer);
 
   @protected
   List<TutorialStep> sse_decode_list_tutorial_step(
@@ -453,6 +493,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
+
+  @protected
   OutcomeCoverage sse_decode_outcome_coverage(SseDeserializer deserializer);
 
   @protected
@@ -477,6 +520,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   StreakInfo sse_decode_streak_info(SseDeserializer deserializer);
 
   @protected
+  TableInfo sse_decode_table_info(SseDeserializer deserializer);
+
+  @protected
   TipKind sse_decode_tip_kind(SseDeserializer deserializer);
 
   @protected
@@ -490,6 +536,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   int sse_decode_u_32(SseDeserializer deserializer);
+
+  @protected
+  BigInt sse_decode_u_64(SseDeserializer deserializer);
 
   @protected
   int sse_decode_u_8(SseDeserializer deserializer);
@@ -579,6 +628,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_u_64(BigInt self, SseSerializer serializer);
+
+  @protected
   void sse_encode_calendar_event(CalendarEvent self, SseSerializer serializer);
 
   @protected
@@ -604,6 +656,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_day_summary(DaySummary self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_db_overview(DbOverview self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_dev_table(DevTable self, SseSerializer serializer);
 
   @protected
   void sse_encode_event_category(EventCategory self, SseSerializer serializer);
@@ -693,6 +751,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_list_String(
+    List<List<String>> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_outcome_coverage(
     List<OutcomeCoverage> self,
     SseSerializer serializer,
@@ -716,6 +780,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_strand_count(
     List<StrandCount> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_table_info(
+    List<TableInfo> self,
     SseSerializer serializer,
   );
 
@@ -762,6 +832,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
+
+  @protected
   void sse_encode_outcome_coverage(
     OutcomeCoverage self,
     SseSerializer serializer,
@@ -795,6 +868,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_streak_info(StreakInfo self, SseSerializer serializer);
 
   @protected
+  void sse_encode_table_info(TableInfo self, SseSerializer serializer);
+
+  @protected
   void sse_encode_tip_kind(TipKind self, SseSerializer serializer);
 
   @protected
@@ -814,6 +890,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_u_32(int self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_u_64(BigInt self, SseSerializer serializer);
 
   @protected
   void sse_encode_u_8(int self, SseSerializer serializer);

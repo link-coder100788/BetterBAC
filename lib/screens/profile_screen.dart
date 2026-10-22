@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../app_state.dart';
 import '../src/rust/api/app.dart';
+import '../src/rust/api/dev.dart';
 import '../src/rust/api/settings.dart';
 import '../src/rust/api/types.dart';
 import '../theme.dart';
 import '../widgets/chunky.dart';
 import '../widgets/settings_fields.dart';
+import 'dev_menu_screen.dart';
 import 'tutorial_screen.dart';
 
 class _ProfileData {
@@ -45,6 +47,18 @@ class ProfileScreen extends StatelessWidget {
               icon: Icons.school_rounded,
               onPressed: () => replayTutorial(context),
             ),
+            if (devMenuEnabled())
+              Padding(
+                padding: const EdgeInsets.only(top: 32),
+                child: TextButton.icon(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const DevMenuScreen()),
+                  ),
+                  icon: const Icon(Icons.build_rounded, size: 18),
+                  label: const Text('Developer menu'),
+                  style: TextButton.styleFrom(foregroundColor: Palette.gray),
+                ),
+              ),
           ],
         ),
       ),

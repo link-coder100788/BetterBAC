@@ -20,6 +20,7 @@
 //! - **XP awards are keyed** (`xp_log.key`) so the same award made on two
 //!   devices merges into one.
 
+mod dev;
 mod events;
 mod experiences;
 mod reflections;
