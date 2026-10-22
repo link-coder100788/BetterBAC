@@ -14,5 +14,15 @@ flutter_rust_bridge = { version = "=2.13.0", features = ["chrono"] }
 rusqlite = { version = "0.40.2", features = ["bundled", "functions"] }
 uuid = { version = "1.28.0", features = ["v7"] }
 
+# Web (wasm32) only: browser clock/randomness for UUIDs, and database
+# snapshots so the in-browser database can be saved to browser storage.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+uuid = { version = "1.28.0", features = ["v7", "js"] }
+rusqlite = { version = "0.40.2", features = ["bundled", "functions", "serialize"] }
+
+[dev-dependencies]
+# Lets the web snapshot code be unit-tested natively.
+rusqlite = { version = "0.40.2", features = ["bundled", "functions", "serialize"] }
+
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

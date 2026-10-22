@@ -27,6 +27,21 @@ pub fn init(db_path: &str) -> Result<()> {
     Ok(())
 }
 
+/// Installs an already-open store. Used by the web build, where there's no
+/// database file path (see `api::web`). Idempotent like [`init`].
+#[cfg(target_arch = "wasm32")]
+pub fn install(store: Store) {
+    let _ = CORE.set(Core {
+        store: Mutex::new(store),
+        calendar: CalendarService::new(),
+    });
+}
+
+#[cfg(target_arch = "wasm32")]
+pub fn is_initialised() -> bool {
+    CORE.get().is_some()
+}
+
 /// Runs `f` with exclusive access to the store, inside a transaction that is
 /// committed only if `f` succeeds.
 pub fn with_core<T>(f: impl FnOnce(&Store, &CalendarService) -> Result<T>) -> Result<T> {

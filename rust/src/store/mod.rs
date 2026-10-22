@@ -26,6 +26,8 @@ mod experiences;
 mod reflections;
 mod settings;
 mod stats;
+#[cfg(any(target_arch = "wasm32", test))]
+mod web;
 mod xp;
 
 use anyhow::{Context, Result};

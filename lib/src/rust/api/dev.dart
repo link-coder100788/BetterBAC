@@ -8,7 +8,7 @@ import '../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 // These functions are ignored because they are not marked as `pub`: `ensure_enabled`
-// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `fmt`, `fmt`, `fmt`
+// These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`, `clone`, `clone`, `clone`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`
 
 bool devMenuEnabled() => RustLib.instance.api.crateApiDevDevMenuEnabled();
 
@@ -95,10 +95,28 @@ class DbOverview {
           tables == other.tables;
 }
 
-/// Raw query results, every cell rendered as text.
+/// One result row, every cell rendered as text. (A struct rather than a
+/// nested `Vec<Vec<String>>`, which flutter_rust_bridge can't send on web.)
+class DevRow {
+  final List<String> cells;
+
+  const DevRow({required this.cells});
+
+  @override
+  int get hashCode => cells.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DevRow &&
+          runtimeType == other.runtimeType &&
+          cells == other.cells;
+}
+
+/// Raw query results.
 class DevTable {
   final List<String> columns;
-  final List<List<String>> rows;
+  final List<DevRow> rows;
 
   /// Total rows in the table, when browsing a table.
   final BigInt? totalRows;

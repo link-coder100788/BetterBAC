@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -9,12 +10,17 @@ import 'src/rust/api/settings.dart';
 import 'src/rust/api/tutorial.dart';
 import 'src/rust/frb_generated.dart';
 import 'theme.dart';
+import 'web/web_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await RustLib.init();
-  final dir = await getApplicationSupportDirectory();
-  await initCore(dbPath: '${dir.path}/betterbac.sqlite3');
+  if (kIsWeb) {
+    await startWebCore();
+  } else {
+    final dir = await getApplicationSupportDirectory();
+    await initCore(dbPath: '${dir.path}/betterbac.sqlite3');
+  }
   final settings = await getSettings();
   final tutorial = await tutorialStatus();
   runApp(

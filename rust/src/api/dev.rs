@@ -37,11 +37,18 @@ pub struct DbOverview {
     pub tables: Vec<TableInfo>,
 }
 
-/// Raw query results, every cell rendered as text.
+/// One result row, every cell rendered as text. (A struct rather than a
+/// nested `Vec<Vec<String>>`, which flutter_rust_bridge can't send on web.)
+#[derive(Debug, Clone, PartialEq)]
+pub struct DevRow {
+    pub cells: Vec<String>,
+}
+
+/// Raw query results.
 #[derive(Debug, Clone)]
 pub struct DevTable {
     pub columns: Vec<String>,
-    pub rows: Vec<Vec<String>>,
+    pub rows: Vec<DevRow>,
     /// Total rows in the table, when browsing a table.
     pub total_rows: Option<u64>,
     /// True if more rows matched than were returned.

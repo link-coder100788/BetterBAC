@@ -10,3 +10,4 @@ pub mod dev;
 pub mod settings;
 pub mod tutorial;
 pub mod types;
+pub mod web;

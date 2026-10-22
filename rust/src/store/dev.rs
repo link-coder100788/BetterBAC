@@ -6,7 +6,7 @@ use rusqlite::types::ValueRef;
 use rusqlite::{params_from_iter, Statement};
 
 use super::{from_millis, Store};
-use crate::api::dev::{DbOverview, DevTable, TableInfo};
+use crate::api::dev::{DbOverview, DevRow, DevTable, TableInfo};
 
 /// Tables holding user data, wiped by "clear all progress".
 const DATA_TABLES: &[&str] = &["experiences", "reflections", "events", "xp_log", "settings"];
@@ -144,7 +144,7 @@ where
                 ValueRef::Blob(b) => format!("<blob {} bytes>", b.len()),
             });
         }
-        rows.push(cells);
+        rows.push(DevRow { cells });
     }
     Ok(DevTable {
         columns,
@@ -178,11 +178,14 @@ mod tests {
 
         let t = store.dev_table("settings", 0, 50).unwrap();
         assert_eq!(t.columns, ["key", "value", "updated_at"]);
-        assert_eq!(t.rows[0][1], "Noah");
-        assert!(t.rows[0][2].starts_with("0 (1970-01-01"));
+        assert_eq!(t.rows[0].cells[1], "Noah");
+        assert!(t.rows[0].cells[2].starts_with("0 (1970-01-01"));
         assert!(store.dev_table("settings; DROP TABLE events", 0, 1).is_err());
 
-        assert_eq!(store.dev_query("SELECT 1 + 1 AS two").unwrap().rows, [["2"]]);
+        assert_eq!(
+            store.dev_query("SELECT 1 + 1 AS two").unwrap().rows[0].cells,
+            ["2"]
+        );
         assert!(store.dev_query("DELETE FROM settings").is_err());
 
         store.dev_wipe().unwrap();

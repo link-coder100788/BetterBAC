@@ -904,9 +904,13 @@ mod engine {
 
     impl Variety {
         pub(super) fn seeded(text: &str) -> Self {
+            #[cfg(not(target_arch = "wasm32"))]
             let nanos = std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
                 .map_or(0, |d| d.subsec_nanos() as u64);
+            // `SystemTime::now` panics in the browser; chrono reads the JS clock.
+            #[cfg(target_arch = "wasm32")]
+            let nanos = chrono::Utc::now().timestamp_subsec_nanos() as u64;
             let hash = text.bytes().fold(0xcbf29ce484222325u64, |h, b| {
                 (h ^ b as u64).wrapping_mul(0x100000001b3)
             });

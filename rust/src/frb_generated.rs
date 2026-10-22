@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -2082847057;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 1435483397;
 
 // Section: executor
 
@@ -1796,6 +1796,75 @@ fn wire__crate__api__settings__update_settings_impl(
         },
     )
 }
+fn wire__crate__api__web__web_init_core_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "web_init_core",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_snapshot = <Option<Vec<u8>>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::web::web_init_core(api_snapshot)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__web__web_snapshot_if_changed_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "web_snapshot_if_changed",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::web::web_snapshot_if_changed()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__calendar__workload_outlook_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -2102,11 +2171,19 @@ impl SseDecode for crate::api::dev::DbOverview {
     }
 }
 
+impl SseDecode for crate::api::dev::DevRow {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_cells = <Vec<String>>::sse_decode(deserializer);
+        return crate::api::dev::DevRow { cells: var_cells };
+    }
+}
+
 impl SseDecode for crate::api::dev::DevTable {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         let mut var_columns = <Vec<String>>::sse_decode(deserializer);
-        let mut var_rows = <Vec<Vec<String>>>::sse_decode(deserializer);
+        let mut var_rows = <Vec<crate::api::dev::DevRow>>::sse_decode(deserializer);
         let mut var_totalRows = <Option<u64>>::sse_decode(deserializer);
         let mut var_truncated = <bool>::sse_decode(deserializer);
         return crate::api::dev::DevTable {
@@ -2342,6 +2419,18 @@ impl SseDecode for Vec<crate::api::types::DaySummary> {
     }
 }
 
+impl SseDecode for Vec<crate::api::dev::DevRow> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::dev::DevRow>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
 impl SseDecode for Vec<crate::api::types::EventCategory> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2375,18 +2464,6 @@ impl SseDecode for Vec<crate::api::types::LearningOutcome> {
             ans_.push(<crate::api::types::LearningOutcome>::sse_decode(
                 deserializer,
             ));
-        }
-        return ans_;
-    }
-}
-
-impl SseDecode for Vec<Vec<String>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        let mut len_ = <i32>::sse_decode(deserializer);
-        let mut ans_ = Vec::with_capacity(len_ as usize);
-        for idx_ in 0..len_ {
-            ans_.push(<Vec<String>>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -2587,6 +2664,17 @@ impl SseDecode for Option<u64> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<u64>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<Vec<u8>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<Vec<u8>>::sse_decode(deserializer));
         } else {
             return None;
         }
@@ -2896,7 +2984,11 @@ fn pde_ffi_dispatcher_primary_impl(
         50 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
         51 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
         52 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
+        53 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
+        54 => {
+            wire__crate__api__web__web_snapshot_if_changed_impl(port, ptr, rust_vec_len, data_len)
+        }
+        55 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3224,6 +3316,18 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::dev::DbOverview>
     for crate::api::dev::DbOverview
 {
     fn into_into_dart(self) -> crate::api::dev::DbOverview {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::dev::DevRow {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [self.cells.into_into_dart().into_dart()].into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive for crate::api::dev::DevRow {}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::dev::DevRow> for crate::api::dev::DevRow {
+    fn into_into_dart(self) -> crate::api::dev::DevRow {
         self
     }
 }
@@ -3966,11 +4070,18 @@ impl SseEncode for crate::api::dev::DbOverview {
     }
 }
 
+impl SseEncode for crate::api::dev::DevRow {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Vec<String>>::sse_encode(self.cells, serializer);
+    }
+}
+
 impl SseEncode for crate::api::dev::DevTable {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         <Vec<String>>::sse_encode(self.columns, serializer);
-        <Vec<Vec<String>>>::sse_encode(self.rows, serializer);
+        <Vec<crate::api::dev::DevRow>>::sse_encode(self.rows, serializer);
         <Option<u64>>::sse_encode(self.total_rows, serializer);
         <bool>::sse_encode(self.truncated, serializer);
     }
@@ -4158,6 +4269,16 @@ impl SseEncode for Vec<crate::api::types::DaySummary> {
     }
 }
 
+impl SseEncode for Vec<crate::api::dev::DevRow> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::dev::DevRow>::sse_encode(item, serializer);
+        }
+    }
+}
+
 impl SseEncode for Vec<crate::api::types::EventCategory> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4184,16 +4305,6 @@ impl SseEncode for Vec<crate::api::types::LearningOutcome> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::types::LearningOutcome>::sse_encode(item, serializer);
-        }
-    }
-}
-
-impl SseEncode for Vec<Vec<String>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <i32>::sse_encode(self.len() as _, serializer);
-        for item in self {
-            <Vec<String>>::sse_encode(item, serializer);
         }
     }
 }
@@ -4361,6 +4472,16 @@ impl SseEncode for Option<u64> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <u64>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<Vec<u8>> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <Vec<u8>>::sse_encode(value, serializer);
         }
     }
 }

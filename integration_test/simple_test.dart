@@ -197,7 +197,7 @@ void main() {
     expect(page.columns, contains('title'));
     expect(page.rows, isNotEmpty);
     expect(
-      (await devQuery(sql: 'SELECT COUNT(*) FROM events')).rows.single.single,
+      (await devQuery(sql: 'SELECT COUNT(*) FROM events')).rows.single.cells.single,
       isNot('0'),
     );
     await expectLater(devQuery(sql: 'DELETE FROM events'), throwsA(anything));

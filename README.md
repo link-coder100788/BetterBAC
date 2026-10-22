@@ -7,7 +7,11 @@ reflections and every IB deadline in one friendly place, turns the work into
 streaks and progress the way Duolingo does for languages, and warns students
 before their workload becomes overwhelming.
 
-Built with Flutter and Rust for iOS, Android, macOS and Windows.
+Built with Flutter and Rust for iOS, Android, macOS, Windows and the web.
+
+**▶ Try the demo in your browser: https://link-coder100788.github.io/BetterBAC/**
+<sub>No sign-up. Your data stays in your own browser. Tip: Profile → Developer
+menu → *Seed sample data* fills the app with a realistic example student.</sub>
 
 ---
 
@@ -98,6 +102,11 @@ with one tap.
   - On Apple Intelligence devices, Rust writes the prompt, Apple's
     on-device model generates structured feedback, and Rust validates it
     and merges it with the same score.
+- **Runs in the browser too.** The same Rust core compiles to WebAssembly.
+  In the browser the database lives in memory and is saved to browser
+  storage every couple of seconds. A tiny service worker enables the
+  cross-origin isolation that multi-threaded WebAssembly needs, so it runs
+  on plain static hosting like GitHub Pages.
 - **Extensible calendar.** Events come from pluggable `EventProvider`s. Today
   that's events you add yourself; a ManageBAC calendar feed is a drop-in
   addition.
@@ -107,7 +116,7 @@ with one tap.
 - [Flutter](https://flutter.dev) 3.47 / Dart 3.13
 - [Rust](https://www.rust-lang.org) 2021 edition
 - [flutter_rust_bridge](https://github.com/fzyzcjy/flutter_rust_bridge) 2.13
-- [rusqlite](https://github.com/rusqlite/rusqlite) (bundled SQLite), chrono, uuid
+- [rusqlite](https://github.com/rusqlite/rusqlite) (bundled SQLite; [sqlite-wasm-rs](https://crates.io/crates/sqlite-wasm-rs) on the web), chrono, uuid
 - Apple [Foundation Models](https://developer.apple.com/documentation/foundationmodels)
   via a small Swift plugin (`packages/apple_coach`)
 
@@ -152,6 +161,30 @@ flutter test integration_test/simple_test.dart -d macos
 
 Rust and Swift changes need a full restart (`flutter run`); hot reload only
 picks up Dart changes.
+
+### Web
+
+One-time setup (macOS):
+
+```bash
+rustup target add wasm32-unknown-unknown --toolchain nightly
+rustup component add rust-src --toolchain nightly
+cargo install wasm-pack
+cargo install wasm-bindgen-cli --version <version of wasm-bindgen in rust/Cargo.lock> --locked
+brew install llvm
+```
+
+Then:
+
+```bash
+scripts/build_web.sh        # builds build/web for https://<user>.github.io/BetterBAC/
+scripts/deploy_web.sh       # builds and pushes it to the gh-pages branch
+```
+
+To try a build locally, serve the folder *above* `build/web` so the
+`/BetterBAC/` path matches, e.g. `mkdir -p /tmp/site && ln -sfn "$PWD/build/web"
+/tmp/site/BetterBAC && python3 -m http.server -d /tmp/site 8000`, then open
+http://localhost:8000/BetterBAC/.
 
 ## Project structure
 

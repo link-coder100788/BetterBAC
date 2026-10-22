@@ -343,7 +343,7 @@ class _ResultTable extends StatelessWidget {
 
   final DevTable data;
 
-  void _showRow(BuildContext context, List<String> row) {
+  void _showRow(BuildContext context, DevRow row) {
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
@@ -360,7 +360,7 @@ class _ResultTable extends StatelessWidget {
                 col,
                 style: const TextStyle(color: Palette.muted, fontWeight: FontWeight.w800),
               ),
-              SelectableText(row[i], style: const TextStyle(fontFamily: 'monospace')),
+              SelectableText(row.cells[i], style: const TextStyle(fontFamily: 'monospace')),
               const SizedBox(height: 12),
             ],
           ],
@@ -397,7 +397,7 @@ class _ResultTable extends StatelessWidget {
                   DataRow(
                     onSelectChanged: (_) => _showRow(context, row),
                     cells: [
-                      for (final cell in row)
+                      for (final cell in row.cells)
                         DataCell(
                           ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 240),

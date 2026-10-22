@@ -11,6 +11,7 @@ import 'api/dev.dart';
 import 'api/settings.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
+import 'api/web.dart';
 
 import 'dart:async';
 import 'dart:convert';
@@ -110,6 +111,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DbOverview dco_decode_db_overview(dynamic raw);
 
   @protected
+  DevRow dco_decode_dev_row(dynamic raw);
+
+  @protected
   DevTable dco_decode_dev_table(dynamic raw);
 
   @protected
@@ -161,6 +165,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DaySummary> dco_decode_list_day_summary(dynamic raw);
 
   @protected
+  List<DevRow> dco_decode_list_dev_row(dynamic raw);
+
+  @protected
   List<EventCategory> dco_decode_list_event_category(dynamic raw);
 
   @protected
@@ -168,9 +175,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<LearningOutcome> dco_decode_list_learning_outcome(dynamic raw);
-
-  @protected
-  List<List<String>> dco_decode_list_list_String(dynamic raw);
 
   @protected
   List<OutcomeCoverage> dco_decode_list_outcome_coverage(dynamic raw);
@@ -219,6 +223,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
+
+  @protected
+  Uint8List? dco_decode_opt_list_prim_u_8_strict(dynamic raw);
 
   @protected
   OutcomeCoverage dco_decode_outcome_coverage(dynamic raw);
@@ -369,6 +376,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DbOverview sse_decode_db_overview(SseDeserializer deserializer);
 
   @protected
+  DevRow sse_decode_dev_row(SseDeserializer deserializer);
+
+  @protected
   DevTable sse_decode_dev_table(SseDeserializer deserializer);
 
   @protected
@@ -422,6 +432,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<DaySummary> sse_decode_list_day_summary(SseDeserializer deserializer);
 
   @protected
+  List<DevRow> sse_decode_list_dev_row(SseDeserializer deserializer);
+
+  @protected
   List<EventCategory> sse_decode_list_event_category(
     SseDeserializer deserializer,
   );
@@ -433,9 +446,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<LearningOutcome> sse_decode_list_learning_outcome(
     SseDeserializer deserializer,
   );
-
-  @protected
-  List<List<String>> sse_decode_list_list_String(SseDeserializer deserializer);
 
   @protected
   List<OutcomeCoverage> sse_decode_list_outcome_coverage(
@@ -492,6 +502,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
+
+  @protected
+  Uint8List? sse_decode_opt_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
   OutcomeCoverage sse_decode_outcome_coverage(SseDeserializer deserializer);
@@ -659,6 +672,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_db_overview(DbOverview self, SseSerializer serializer);
 
   @protected
+  void sse_encode_dev_row(DevRow self, SseSerializer serializer);
+
+  @protected
   void sse_encode_dev_table(DevTable self, SseSerializer serializer);
 
   @protected
@@ -731,6 +747,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_dev_row(List<DevRow> self, SseSerializer serializer);
+
+  @protected
   void sse_encode_list_event_category(
     List<EventCategory> self,
     SseSerializer serializer,
@@ -745,12 +764,6 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_list_learning_outcome(
     List<LearningOutcome> self,
-    SseSerializer serializer,
-  );
-
-  @protected
-  void sse_encode_list_list_String(
-    List<List<String>> self,
     SseSerializer serializer,
   );
 
@@ -831,6 +844,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_opt_list_prim_u_8_strict(
+    Uint8List? self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_outcome_coverage(
