@@ -1,0 +1,17 @@
+[package]
+name = "betterbac_core"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "staticlib"]
+
+[dependencies]
+anyhow = "1.0.104"
+chrono = "0.4.45"
+flutter_rust_bridge = { version = "=2.13.0", features = ["chrono"] }
+rusqlite = { version = "0.40.2", features = ["bundled", "functions"] }
+uuid = { version = "1.28.0", features = ["v7"] }
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(frb_expand)'] }

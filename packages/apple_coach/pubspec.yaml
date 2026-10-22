@@ -1,0 +1,22 @@
+name: apple_coach
+description: Apple Intelligence (Foundation Models) bridge for BetterBAC's reflection coach.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: AppleCoachPlugin
+        sharedDarwinSource: true
+      macos:
+        pluginClass: AppleCoachPlugin
+        sharedDarwinSource: true

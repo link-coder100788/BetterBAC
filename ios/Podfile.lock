@@ -1,0 +1,29 @@
+PODS:
+  - apple_coach (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - betterbac_core (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+
+DEPENDENCIES:
+  - apple_coach (from `.symlinks/plugins/apple_coach/darwin`)
+  - betterbac_core (from `.symlinks/plugins/betterbac_core/ios`)
+  - Flutter (from `Flutter`)
+
+EXTERNAL SOURCES:
+  apple_coach:
+    :path: ".symlinks/plugins/apple_coach/darwin"
+  betterbac_core:
+    :path: ".symlinks/plugins/betterbac_core/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  apple_coach: b0aff975f8562569606fd4ca20310b13e701839b
+  betterbac_core: cf98929c00589f99191c0a7049a621e3e983e3c3
+  Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+
+PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
+
+COCOAPODS: 1.17.0
