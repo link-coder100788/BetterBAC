@@ -1,0 +1,10 @@
+{
+  "name": "betterbac_core",
+  "version": "0.1.0",
+  "license": "MIT",
+  "files": [
+    "betterbac_core_bg.wasm",
+    "betterbac_core.js"
+  ],
+  "browser": "betterbac_core.js"
+}
