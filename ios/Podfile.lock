@@ -5,11 +5,14 @@ PODS:
   - betterbac_core (0.0.1):
     - Flutter
   - Flutter (1.0.0)
+  - live_activity (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - apple_coach (from `.symlinks/plugins/apple_coach/darwin`)
   - betterbac_core (from `.symlinks/plugins/betterbac_core/ios`)
   - Flutter (from `Flutter`)
+  - live_activity (from `.symlinks/plugins/live_activity/ios`)
 
 EXTERNAL SOURCES:
   apple_coach:
@@ -18,11 +21,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/betterbac_core/ios"
   Flutter:
     :path: Flutter
+  live_activity:
+    :path: ".symlinks/plugins/live_activity/ios"
 
 SPEC CHECKSUMS:
-  apple_coach: b0aff975f8562569606fd4ca20310b13e701839b
+  apple_coach: e1e2121bf32b852983648fca52b656d69ccacd0e
   betterbac_core: cf98929c00589f99191c0a7049a621e3e983e3c3
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
+  live_activity: 9a8fec3563017ac6e3a43884107a5f46f000e85e
 
 PODFILE CHECKSUM: 3ba3a73b1b12adcf321a227a745625fe0888cc82
 

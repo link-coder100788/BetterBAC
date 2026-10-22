@@ -8,6 +8,7 @@ import 'api/calendar.dart';
 import 'api/cas.dart';
 import 'api/coach.dart';
 import 'api/dev.dart';
+import 'api/reminders.dart';
 import 'api/settings.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
@@ -72,7 +73,13 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ReflectionDraft dco_decode_box_autoadd_reflection_draft(dynamic raw);
 
   @protected
+  ReminderPrefs dco_decode_box_autoadd_reminder_prefs(dynamic raw);
+
+  @protected
   Settings dco_decode_box_autoadd_settings(dynamic raw);
+
+  @protected
+  StreakActivity dco_decode_box_autoadd_streak_activity(dynamic raw);
 
   @protected
   TutorialStatus dco_decode_box_autoadd_tutorial_status(dynamic raw);
@@ -180,6 +187,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<OutcomeCoverage> dco_decode_list_outcome_coverage(dynamic raw);
 
   @protected
+  List<PlannedNotification> dco_decode_list_planned_notification(dynamic raw);
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
 
   @protected
@@ -222,6 +232,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LearningOutcome? dco_decode_opt_box_autoadd_learning_outcome(dynamic raw);
 
   @protected
+  StreakActivity? dco_decode_opt_box_autoadd_streak_activity(dynamic raw);
+
+  @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw);
 
   @protected
@@ -229,6 +242,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   OutcomeCoverage dco_decode_outcome_coverage(dynamic raw);
+
+  @protected
+  PlannedNotification dco_decode_planned_notification(dynamic raw);
 
   @protected
   Reflection dco_decode_reflection(dynamic raw);
@@ -240,6 +256,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ReflectionSaved dco_decode_reflection_saved(dynamic raw);
 
   @protected
+  ReminderPlan dco_decode_reminder_plan(dynamic raw);
+
+  @protected
+  ReminderPrefs dco_decode_reminder_prefs(dynamic raw);
+
+  @protected
   Settings dco_decode_settings(dynamic raw);
 
   @protected
@@ -247,6 +269,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   StrandCount dco_decode_strand_count(dynamic raw);
+
+  @protected
+  StreakActivity dco_decode_streak_activity(dynamic raw);
 
   @protected
   StreakInfo dco_decode_streak_info(dynamic raw);
@@ -335,7 +360,17 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  ReminderPrefs sse_decode_box_autoadd_reminder_prefs(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   Settings sse_decode_box_autoadd_settings(SseDeserializer deserializer);
+
+  @protected
+  StreakActivity sse_decode_box_autoadd_streak_activity(
+    SseDeserializer deserializer,
+  );
 
   @protected
   TutorialStatus sse_decode_box_autoadd_tutorial_status(
@@ -453,6 +488,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  List<PlannedNotification> sse_decode_list_planned_notification(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
 
   @protected
@@ -501,6 +541,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  StreakActivity? sse_decode_opt_box_autoadd_streak_activity(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer);
 
   @protected
@@ -508,6 +553,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   OutcomeCoverage sse_decode_outcome_coverage(SseDeserializer deserializer);
+
+  @protected
+  PlannedNotification sse_decode_planned_notification(
+    SseDeserializer deserializer,
+  );
 
   @protected
   Reflection sse_decode_reflection(SseDeserializer deserializer);
@@ -519,6 +569,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ReflectionSaved sse_decode_reflection_saved(SseDeserializer deserializer);
 
   @protected
+  ReminderPlan sse_decode_reminder_plan(SseDeserializer deserializer);
+
+  @protected
+  ReminderPrefs sse_decode_reminder_prefs(SseDeserializer deserializer);
+
+  @protected
   Settings sse_decode_settings(SseDeserializer deserializer);
 
   @protected
@@ -526,6 +582,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   StrandCount sse_decode_strand_count(SseDeserializer deserializer);
+
+  @protected
+  StreakActivity sse_decode_streak_activity(SseDeserializer deserializer);
 
   @protected
   StreakInfo sse_decode_streak_info(SseDeserializer deserializer);
@@ -630,7 +689,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_reminder_prefs(
+    ReminderPrefs self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_settings(Settings self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_box_autoadd_streak_activity(
+    StreakActivity self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_box_autoadd_tutorial_status(
@@ -774,6 +845,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_list_planned_notification(
+    List<PlannedNotification> self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
     Uint8List self,
     SseSerializer serializer,
@@ -843,6 +920,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_opt_box_autoadd_streak_activity(
+    StreakActivity? self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer);
 
   @protected
@@ -854,6 +937,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_outcome_coverage(
     OutcomeCoverage self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_planned_notification(
+    PlannedNotification self,
     SseSerializer serializer,
   );
 
@@ -873,6 +962,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_reminder_plan(ReminderPlan self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_reminder_prefs(ReminderPrefs self, SseSerializer serializer);
+
+  @protected
   void sse_encode_settings(Settings self, SseSerializer serializer);
 
   @protected
@@ -880,6 +975,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_strand_count(StrandCount self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_streak_activity(
+    StreakActivity self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_streak_info(StreakInfo self, SseSerializer serializer);

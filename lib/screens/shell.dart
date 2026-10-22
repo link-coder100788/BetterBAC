@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../reminders.dart';
 import '../theme.dart';
 import 'calendar_screen.dart';
 import 'cas_screen.dart';
@@ -31,6 +32,14 @@ const _tabs = [
 
 class _ShellState extends State<Shell> {
   int _index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Onboarding is done by the time the shell shows, so this is a good
+    // moment for the notification permission prompt.
+    WidgetsBinding.instance.addPostFrameCallback((_) => Reminders.start());
+  }
 
   void _select(int i) => setState(() => _index = i);
 

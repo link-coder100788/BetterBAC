@@ -18,7 +18,7 @@ use crate::progress;
 use crate::state::{self, with_core};
 
 /// Increase whenever steps are added.
-const TUTORIAL_VERSION: u32 = 1;
+const TUTORIAL_VERSION: u32 = 2;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TutorialAccent {
@@ -179,6 +179,16 @@ fn all_steps() -> Vec<TutorialStep> {
             "See crunch weeks coming",
             "BetterBAC watches your next six weeks. When big deadlines pile up, it warns you early so you can spread the work out and look after yourself.",
         ),
+        TutorialStep {
+            since: 2,
+            ..step(
+                "reminders",
+                Orange,
+                "notifications_active",
+                "Never lose your streak",
+                "Get a nudge when your streak is at risk, and reminders before deadlines and crunch weeks. On iPhone, a Live Activity counts down to midnight on your lock screen. Switch either off in Profile.",
+            )
+        },
         step(
             "achievements",
             Yellow,

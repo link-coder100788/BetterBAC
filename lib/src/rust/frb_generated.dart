@@ -8,6 +8,7 @@ import 'api/calendar.dart';
 import 'api/cas.dart';
 import 'api/coach.dart';
 import 'api/dev.dart';
+import 'api/reminders.dart';
 import 'api/settings.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
@@ -77,7 +78,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => 1435483397;
+  int get rustContentHash => -869583066;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -161,6 +162,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<Reflection> crateApiCasGetReflection({required String id});
 
+  Future<ReminderPrefs> crateApiRemindersGetReminderPrefs();
+
   Future<Settings> crateApiSettingsGetSettings();
 
   Future<void> crateApiAppInitApp();
@@ -194,6 +197,8 @@ abstract class RustLibApi extends BaseApi {
 
   Future<List<String>> crateApiCalendarRefreshCalendars();
 
+  Future<ReminderPlan> crateApiRemindersReminderPlan();
+
   Future<ReflectionSaved> crateApiCasSaveReflection({
     String? id,
     required ReflectionDraft draft,
@@ -202,6 +207,10 @@ abstract class RustLibApi extends BaseApi {
   Future<int> crateApiCalendarSetEventCompleted({
     required String id,
     required bool completed,
+  });
+
+  Future<void> crateApiRemindersSetReminderPrefs({
+    required ReminderPrefs prefs,
   });
 
   String crateApiTypesStrandLabel({required Strand that});
@@ -1029,7 +1038,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "get_reflection", argNames: ["id"]);
 
   @override
-  Future<Settings> crateApiSettingsGetSettings() {
+  Future<ReminderPrefs> crateApiRemindersGetReminderPrefs() {
     return handler.executeNormal(
       NormalTask(
         callFfi: (port_) {
@@ -1038,6 +1047,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
             generalizedFrbRustBinding,
             serializer,
             funcId: 29,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_reminder_prefs,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiRemindersGetReminderPrefsConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiRemindersGetReminderPrefsConstMeta =>
+      const TaskConstMeta(debugName: "get_reminder_prefs", argNames: []);
+
+  @override
+  Future<Settings> crateApiSettingsGetSettings() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 30,
             port: port_,
           );
         },
@@ -1064,7 +1100,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 30,
+            funcId: 31,
             port: port_,
           );
         },
@@ -1092,7 +1128,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 31,
+            funcId: 32,
             port: port_,
           );
         },
@@ -1119,7 +1155,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_learning_outcome(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 32)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -1145,7 +1181,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_learning_outcome(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 33)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_u_8,
@@ -1173,7 +1209,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_learning_outcome(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 34)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 35)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -1201,7 +1237,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 35,
+            funcId: 36,
             port: port_,
           );
         },
@@ -1229,7 +1265,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 36,
+            funcId: 37,
             port: port_,
           );
         },
@@ -1256,7 +1292,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_load_level(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 37)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 38)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -1281,7 +1317,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 38,
+            funcId: 39,
             port: port_,
           );
         },
@@ -1313,7 +1349,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 39,
+            funcId: 40,
             port: port_,
           );
         },
@@ -1343,7 +1379,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_list_learning_outcome(outcomes, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 40)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 41)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_String,
@@ -1371,7 +1407,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 41,
+            funcId: 42,
             port: port_,
           );
         },
@@ -1390,6 +1426,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "refresh_calendars", argNames: []);
 
   @override
+  Future<ReminderPlan> crateApiRemindersReminderPlan() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 43,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_reminder_plan,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiRemindersReminderPlanConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiRemindersReminderPlanConstMeta =>
+      const TaskConstMeta(debugName: "reminder_plan", argNames: []);
+
+  @override
   Future<ReflectionSaved> crateApiCasSaveReflection({
     String? id,
     required ReflectionDraft draft,
@@ -1403,7 +1466,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 42,
+            funcId: 44,
             port: port_,
           );
         },
@@ -1437,7 +1500,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 43,
+            funcId: 45,
             port: port_,
           );
         },
@@ -1459,13 +1522,43 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<void> crateApiRemindersSetReminderPrefs({
+    required ReminderPrefs prefs,
+  }) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_box_autoadd_reminder_prefs(prefs, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 46,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiRemindersSetReminderPrefsConstMeta,
+        argValues: [prefs],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiRemindersSetReminderPrefsConstMeta =>
+      const TaskConstMeta(debugName: "set_reminder_prefs", argNames: ["prefs"]);
+
+  @override
   String crateApiTypesStrandLabel({required Strand that}) {
     return handler.executeSync(
       SyncTask(
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_strand(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 44)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -1490,7 +1583,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 45,
+            funcId: 48,
             port: port_,
           );
         },
@@ -1515,7 +1608,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tutorial_status(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 49)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1541,7 +1634,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tutorial_status(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 47)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 50)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1569,7 +1662,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_u_32(afterVersion, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 48)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 51)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_tutorial_step,
@@ -1600,7 +1693,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 49,
+            funcId: 52,
             port: port_,
           );
         },
@@ -1632,7 +1725,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 50,
+            funcId: 53,
             port: port_,
           );
         },
@@ -1664,7 +1757,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 51,
+            funcId: 54,
             port: port_,
           );
         },
@@ -1697,7 +1790,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 52,
+            funcId: 55,
             port: port_,
           );
         },
@@ -1725,7 +1818,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 53,
+            funcId: 56,
             port: port_,
           );
         },
@@ -1752,7 +1845,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 54,
+            funcId: 57,
             port: port_,
           );
         },
@@ -1782,7 +1875,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 55,
+            funcId: 58,
             port: port_,
           );
         },
@@ -1909,9 +2002,21 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ReminderPrefs dco_decode_box_autoadd_reminder_prefs(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_reminder_prefs(raw);
+  }
+
+  @protected
   Settings dco_decode_box_autoadd_settings(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_settings(raw);
+  }
+
+  @protected
+  StreakActivity dco_decode_box_autoadd_streak_activity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_streak_activity(raw);
   }
 
   @protected
@@ -2267,6 +2372,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<PlannedNotification> dco_decode_list_planned_notification(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return (raw as List<dynamic>).map(dco_decode_planned_notification).toList();
+  }
+
+  @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw as Uint8List;
@@ -2366,6 +2477,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StreakActivity? dco_decode_opt_box_autoadd_streak_activity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_streak_activity(raw);
+  }
+
+  @protected
   BigInt? dco_decode_opt_box_autoadd_u_64(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_u_64(raw);
@@ -2386,6 +2503,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return OutcomeCoverage(
       outcome: dco_decode_learning_outcome(arr[0]),
       reflections: dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
+  PlannedNotification dco_decode_planned_notification(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 4)
+      throw Exception('unexpected arr length: expect 4 but see ${arr.length}');
+    return PlannedNotification(
+      id: dco_decode_i_32(arr[0]),
+      fireAt: dco_decode_Chrono_Utc(arr[1]),
+      title: dco_decode_String(arr[2]),
+      body: dco_decode_String(arr[3]),
     );
   }
 
@@ -2436,6 +2567,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ReminderPlan dco_decode_reminder_plan(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return ReminderPlan(
+      notifications: dco_decode_list_planned_notification(arr[0]),
+      liveActivity: dco_decode_opt_box_autoadd_streak_activity(arr[1]),
+    );
+  }
+
+  @protected
+  ReminderPrefs dco_decode_reminder_prefs(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 2)
+      throw Exception('unexpected arr length: expect 2 but see ${arr.length}');
+    return ReminderPrefs(
+      notifications: dco_decode_bool(arr[0]),
+      liveActivity: dco_decode_bool(arr[1]),
+    );
+  }
+
+  @protected
   Settings dco_decode_settings(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
@@ -2463,6 +2618,22 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     return StrandCount(
       strand: dco_decode_strand(arr[0]),
       experiences: dco_decode_u_32(arr[1]),
+    );
+  }
+
+  @protected
+  StreakActivity dco_decode_streak_activity(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 6)
+      throw Exception('unexpected arr length: expect 6 but see ${arr.length}');
+    return StreakActivity(
+      streak: dco_decode_u_32(arr[0]),
+      todayXp: dco_decode_u_32(arr[1]),
+      goalXp: dco_decode_u_32(arr[2]),
+      endsAt: dco_decode_Chrono_Utc(arr[3]),
+      title: dco_decode_String(arr[4]),
+      message: dco_decode_String(arr[5]),
     );
   }
 
@@ -2699,9 +2870,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ReminderPrefs sse_decode_box_autoadd_reminder_prefs(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_reminder_prefs(deserializer));
+  }
+
+  @protected
   Settings sse_decode_box_autoadd_settings(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     return (sse_decode_settings(deserializer));
+  }
+
+  @protected
+  StreakActivity sse_decode_box_autoadd_streak_activity(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_streak_activity(deserializer));
   }
 
   @protected
@@ -3170,6 +3357,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  List<PlannedNotification> sse_decode_list_planned_notification(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    var len_ = sse_decode_i_32(deserializer);
+    var ans_ = <PlannedNotification>[];
+    for (var idx_ = 0; idx_ < len_; ++idx_) {
+      ans_.add(sse_decode_planned_notification(deserializer));
+    }
+    return ans_;
+  }
+
+  @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var len_ = sse_decode_i_32(deserializer);
@@ -3336,6 +3537,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  StreakActivity? sse_decode_opt_box_autoadd_streak_activity(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_streak_activity(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   BigInt? sse_decode_opt_box_autoadd_u_64(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -3363,6 +3577,23 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_outcome = sse_decode_learning_outcome(deserializer);
     var var_reflections = sse_decode_u_32(deserializer);
     return OutcomeCoverage(outcome: var_outcome, reflections: var_reflections);
+  }
+
+  @protected
+  PlannedNotification sse_decode_planned_notification(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_id = sse_decode_i_32(deserializer);
+    var var_fireAt = sse_decode_Chrono_Utc(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_body = sse_decode_String(deserializer);
+    return PlannedNotification(
+      id: var_id,
+      fireAt: var_fireAt,
+      title: var_title,
+      body: var_body,
+    );
   }
 
   @protected
@@ -3416,6 +3647,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  ReminderPlan sse_decode_reminder_plan(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_notifications = sse_decode_list_planned_notification(deserializer);
+    var var_liveActivity = sse_decode_opt_box_autoadd_streak_activity(
+      deserializer,
+    );
+    return ReminderPlan(
+      notifications: var_notifications,
+      liveActivity: var_liveActivity,
+    );
+  }
+
+  @protected
+  ReminderPrefs sse_decode_reminder_prefs(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_notifications = sse_decode_bool(deserializer);
+    var var_liveActivity = sse_decode_bool(deserializer);
+    return ReminderPrefs(
+      notifications: var_notifications,
+      liveActivity: var_liveActivity,
+    );
+  }
+
+  @protected
   Settings sse_decode_settings(SseDeserializer deserializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     var var_displayName = sse_decode_String(deserializer);
@@ -3441,6 +3696,25 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_strand = sse_decode_strand(deserializer);
     var var_experiences = sse_decode_u_32(deserializer);
     return StrandCount(strand: var_strand, experiences: var_experiences);
+  }
+
+  @protected
+  StreakActivity sse_decode_streak_activity(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_streak = sse_decode_u_32(deserializer);
+    var var_todayXp = sse_decode_u_32(deserializer);
+    var var_goalXp = sse_decode_u_32(deserializer);
+    var var_endsAt = sse_decode_Chrono_Utc(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_message = sse_decode_String(deserializer);
+    return StreakActivity(
+      streak: var_streak,
+      todayXp: var_todayXp,
+      goalXp: var_goalXp,
+      endsAt: var_endsAt,
+      title: var_title,
+      message: var_message,
+    );
   }
 
   @protected
@@ -3682,12 +3956,30 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_reminder_prefs(
+    ReminderPrefs self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_reminder_prefs(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_settings(
     Settings self,
     SseSerializer serializer,
   ) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_settings(self, serializer);
+  }
+
+  @protected
+  void sse_encode_box_autoadd_streak_activity(
+    StreakActivity self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_streak_activity(self, serializer);
   }
 
   @protected
@@ -4040,6 +4332,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_list_planned_notification(
+    List<PlannedNotification> self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.length, serializer);
+    for (final item in self) {
+      sse_encode_planned_notification(item, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_list_prim_u_8_strict(
     Uint8List self,
     SseSerializer serializer,
@@ -4194,6 +4498,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_streak_activity(
+    StreakActivity? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_streak_activity(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_u_64(BigInt? self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
 
@@ -4224,6 +4541,18 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_learning_outcome(self.outcome, serializer);
     sse_encode_u_32(self.reflections, serializer);
+  }
+
+  @protected
+  void sse_encode_planned_notification(
+    PlannedNotification self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_i_32(self.id, serializer);
+    sse_encode_Chrono_Utc(self.fireAt, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_String(self.body, serializer);
   }
 
   @protected
@@ -4264,6 +4593,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_reminder_plan(ReminderPlan self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_list_planned_notification(self.notifications, serializer);
+    sse_encode_opt_box_autoadd_streak_activity(self.liveActivity, serializer);
+  }
+
+  @protected
+  void sse_encode_reminder_prefs(ReminderPrefs self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_bool(self.notifications, serializer);
+    sse_encode_bool(self.liveActivity, serializer);
+  }
+
+  @protected
   void sse_encode_settings(Settings self, SseSerializer serializer) {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_String(self.displayName, serializer);
@@ -4282,6 +4625,20 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     // Codec=Sse (Serialization based), see doc to use other codecs
     sse_encode_strand(self.strand, serializer);
     sse_encode_u_32(self.experiences, serializer);
+  }
+
+  @protected
+  void sse_encode_streak_activity(
+    StreakActivity self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_u_32(self.streak, serializer);
+    sse_encode_u_32(self.todayXp, serializer);
+    sse_encode_u_32(self.goalXp, serializer);
+    sse_encode_Chrono_Utc(self.endsAt, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_String(self.message, serializer);
   }
 
   @protected

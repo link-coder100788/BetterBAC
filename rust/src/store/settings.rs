@@ -66,4 +66,13 @@ impl Store {
     pub fn set_tutorial_seen_version(&self, version: u32, now: DateTime<Utc>) -> Result<()> {
         self.put_setting(TUTORIAL_SEEN, Some(&version.to_string()), now)
     }
+
+    /// A boolean preference (stored as "1"/"0"), or `default` if unset.
+    pub fn bool_setting(&self, key: &str, default: bool) -> Result<bool> {
+        Ok(self.get_setting(key)?.map_or(default, |v| v == "1"))
+    }
+
+    pub fn set_bool_setting(&self, key: &str, value: bool, now: DateTime<Utc>) -> Result<()> {
+        self.put_setting(key, Some(if value { "1" } else { "0" }), now)
+    }
 }

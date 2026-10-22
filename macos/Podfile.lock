@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
-  apple_coach: b0aff975f8562569606fd4ca20310b13e701839b
+  apple_coach: e1e2121bf32b852983648fca52b656d69ccacd0e
   betterbac_core: c11586cf50d9923a4becd8676b76521008ae2377
   FlutterMacOS: c232990155153907050900a2e175c7773903ba4e
 

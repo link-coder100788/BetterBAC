@@ -235,6 +235,7 @@ IconData _icon(String name) => switch (name) {
   'warning' => Icons.warning_rounded,
   'emoji_events' => Icons.emoji_events_rounded,
   'lock' => Icons.lock_rounded,
+  'notifications_active' => Icons.notifications_active_rounded,
   _ => Icons.star_rounded,
 };
 
@@ -261,6 +262,7 @@ Widget _illustration(TutorialStep step) => switch (step.id) {
   'managebac' => const _ManageBacDemo(),
   'calendar' => const _CalendarDemo(),
   'crunch' => const _CrunchDemo(),
+  'reminders' => const _RemindersDemo(),
   'achievements' => const _AchievementsDemo(),
   _ => _badge(step),
 };
@@ -655,6 +657,102 @@ class _CrunchDemo extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         WorkloadStrip(weeks: weeks, onSelect: (_) {}),
+      ],
+    );
+  }
+}
+
+class _RemindersDemo extends StatelessWidget {
+  const _RemindersDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    // A notification banner above a lock-screen Live Activity.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Palette.snow,
+            borderRadius: BorderRadius.circular(18),
+            border: Border.all(color: Palette.line, width: 2),
+          ),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.asset('assets/icon/app_icon.png', width: 36, height: 36),
+              ),
+              const SizedBox(width: 10),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '🔥 Your 5-day streak is on the line',
+                      style: TextStyle(fontWeight: FontWeight.w900),
+                    ),
+                    Text(
+                      'Earn a little XP before midnight to keep it.',
+                      style: TextStyle(color: Palette.muted, fontSize: 13),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 14),
+        Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: const Color(0xFF2B2B2B),
+            borderRadius: BorderRadius.circular(22),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 52,
+                height: 52,
+                decoration: const BoxDecoration(
+                  color: Palette.orange,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.local_fire_department_rounded,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+              const SizedBox(width: 12),
+              const Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '5-day streak at risk',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      'Ends in 4:12:33',
+                      style: TextStyle(
+                        color: Palette.orange,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    ChunkyProgressBar(value: 0.3, height: 8),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

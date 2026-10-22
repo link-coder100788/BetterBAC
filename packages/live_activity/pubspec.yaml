@@ -1,0 +1,18 @@
+name: live_activity
+description: Starts, updates and ends BetterBAC's "streak at risk" Live Activity (iOS 16.2+).
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      ios:
+        pluginClass: LiveActivityPlugin

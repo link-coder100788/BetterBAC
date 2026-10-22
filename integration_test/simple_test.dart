@@ -10,6 +10,7 @@ import 'package:betterbac/src/rust/api/calendar.dart';
 import 'package:betterbac/src/rust/api/cas.dart';
 import 'package:betterbac/src/rust/api/coach.dart';
 import 'package:betterbac/src/rust/api/dev.dart';
+import 'package:betterbac/src/rust/api/reminders.dart';
 import 'package:betterbac/src/rust/api/settings.dart';
 import 'package:betterbac/src/rust/api/tutorial.dart';
 import 'package:betterbac/src/rust/api/types.dart';
@@ -178,6 +179,29 @@ void main() {
     final status = await tutorialStatus();
     expect(status.needsTour(), isFalse);
     expect(status.seenVersion, status.currentVersion);
+  });
+
+  test('Reminders: plan and prefs', () async {
+    expect(
+      await getReminderPrefs(),
+      const ReminderPrefs(notifications: true, liveActivity: true),
+    );
+    // Earlier tests created upcoming events and XP, so there's something to plan.
+    final plan = await reminderPlan();
+    expect(plan.notifications, isNotEmpty);
+    final times = plan.notifications.map((n) => n.fireAt).toList();
+    expect(times, orderedEquals([...times]..sort()));
+    expect(times.every((t) => t.isAfter(DateTime.now())), isTrue);
+
+    await setReminderPrefs(
+      prefs: const ReminderPrefs(notifications: false, liveActivity: false),
+    );
+    final off = await reminderPlan();
+    expect(off.notifications, isEmpty);
+    expect(off.liveActivity, isNull);
+    await setReminderPrefs(
+      prefs: const ReminderPrefs(notifications: true, liveActivity: true),
+    );
   });
 
   testWidgets('Developer menu: seed, inspect, query, clear', (tester) async {

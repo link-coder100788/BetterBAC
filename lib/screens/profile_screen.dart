@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
+import '../reminders.dart';
 import '../src/rust/api/app.dart';
 import '../src/rust/api/dev.dart';
+import '../src/rust/api/reminders.dart';
 import '../src/rust/api/settings.dart';
 import '../src/rust/api/types.dart';
 import '../theme.dart';
@@ -39,6 +41,10 @@ class ProfileScreen extends StatelessWidget {
             _Header(dashboard: data.dashboard),
             const SectionTitle('Achievements'),
             _AchievementGrid(achievements: data.achievements),
+            if (Reminders.notificationsSupported) ...[
+              const SectionTitle('Reminders'),
+              const _ReminderSettings(),
+            ],
             const SectionTitle('Settings'),
             _SettingsForm(settings: data.settings),
             const SectionTitle('Help'),
@@ -328,6 +334,111 @@ class _SettingsFormState extends State<_SettingsForm> {
         const SizedBox(height: 20),
         ChunkyButton(label: 'Save settings', onPressed: _save),
       ],
+    );
+  }
+}
+
+class _ReminderSettings extends StatefulWidget {
+  const _ReminderSettings();
+
+  @override
+  State<_ReminderSettings> createState() => _ReminderSettingsState();
+}
+
+class _ReminderSettingsState extends State<_ReminderSettings> {
+  ReminderPrefs? _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    getReminderPrefs().then((p) {
+      if (mounted) setState(() => _prefs = p);
+    });
+  }
+
+  Future<void> _update(ReminderPrefs prefs) async {
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _prefs = prefs);
+    if (!await attempt(context, () => setReminderPrefs(prefs: prefs))) return;
+    if (prefs.notifications && !await Reminders.requestPermission()) {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Allow notifications for BetterBAC in your device settings.'),
+        ),
+      );
+    }
+    await Reminders.sync();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final prefs = _prefs;
+    if (prefs == null) return const SizedBox(height: 120);
+    return ChunkyCard(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Column(
+        children: [
+          _SwitchRow(
+            icon: Icons.notifications_active_rounded,
+            color: Palette.blue,
+            title: 'Notifications',
+            subtitle: 'Streak reminders, deadlines and crunch weeks',
+            value: prefs.notifications,
+            onChanged: (v) => _update(
+              ReminderPrefs(notifications: v, liveActivity: prefs.liveActivity),
+            ),
+          ),
+          if (Reminders.liveActivitySupported) ...[
+            const Divider(height: 1, color: Palette.line),
+            _SwitchRow(
+              icon: Icons.local_fire_department_rounded,
+              color: Palette.orange,
+              title: 'Streak Live Activity',
+              subtitle:
+                  'A countdown on your lock screen when your streak is at risk. '
+                  'Also shows on your Mac (macOS 26).',
+              value: prefs.liveActivity,
+              onChanged: (v) => _update(
+                ReminderPrefs(notifications: prefs.notifications, liveActivity: v),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _SwitchRow extends StatelessWidget {
+  const _SwitchRow({
+    required this.icon,
+    required this.color,
+    required this.title,
+    required this.subtitle,
+    required this.value,
+    required this.onChanged,
+  });
+
+  final IconData icon;
+  final Color color;
+  final String title;
+  final String subtitle;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+      value: value,
+      onChanged: onChanged,
+      activeThumbColor: Colors.white,
+      activeTrackColor: Palette.green,
+      secondary: Icon(icon, color: color, size: 28),
+      title: Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
+      subtitle: Text(
+        subtitle,
+        style: const TextStyle(color: Palette.muted, fontSize: 13),
+      ),
     );
   }
 }
