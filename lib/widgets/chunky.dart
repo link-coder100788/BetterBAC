@@ -127,7 +127,8 @@ class ChunkyCard extends StatelessWidget {
     final card = Container(
       margin: const EdgeInsets.only(bottom: 4),
       decoration: BoxDecoration(
-        color: color,
+        // Opaque, or the solid lip shadow underneath shows through a tint.
+        color: Color.alphaBlend(color, Palette.white),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: borderColor, width: 2),
         boxShadow: [BoxShadow(color: borderColor, offset: const Offset(0, 4))],
@@ -220,7 +221,11 @@ class ChoiceTile extends StatelessWidget {
         margin: const EdgeInsets.only(bottom: 3),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
-          color: selected ? color.withValues(alpha: 0.12) : Palette.white,
+          // Blend onto white: a see-through tint would let the solid lip
+          // shadow underneath show through as a solid block of colour.
+          color: selected
+              ? Color.alphaBlend(color.withValues(alpha: 0.12), Palette.white)
+              : Palette.white,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: border, width: 2),
           boxShadow: [BoxShadow(color: border, offset: const Offset(0, 3))],
