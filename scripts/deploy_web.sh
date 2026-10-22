@@ -21,10 +21,18 @@ else
   git -C "$WORKTREE" rm -rqf .
 fi
 
-rsync -a --delete --exclude .git build/web/ "$WORKTREE"/
+# Exclude nested .gitignore files: wasm-pack writes one containing "*" into
+# pkg/, which would silently drop the Rust WebAssembly from the deploy.
+rsync -a --delete --exclude .git --exclude .gitignore --exclude .DS_Store \
+  --exclude .last_build_id build/web/ "$WORKTREE"/
+rm -f "$WORKTREE/.DS_Store" "$WORKTREE/.last_build_id"  # left by older deploys
 touch "$WORKTREE/.nojekyll"   # serve files as-is, no Jekyll processing
 
 git -C "$WORKTREE" add -A
+if [[ -z "$(git -C "$WORKTREE" ls-files pkg/*.wasm)" ]]; then
+  echo "error: pkg/*.wasm missing from the deploy; aborting." >&2
+  exit 1
+fi
 if git -C "$WORKTREE" diff --cached --quiet; then
   echo "==> Nothing changed; not deploying."
   exit 0
