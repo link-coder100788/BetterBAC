@@ -3,7 +3,7 @@ Pod::Spec.new do |s|
   s.version          = '0.0.1'
   s.summary          = "Apple Intelligence bridge for BetterBAC's reflection coach."
   s.homepage         = 'https://github.com/betterbac'
-  s.license          = { :type => 'Proprietary' }
+  s.license          = { :type => 'MIT' }
   s.author           = { 'BetterBAC' => 'dev@betterbac.app' }
   s.source           = { :path => '.' }
   s.source_files     = 'Classes/**/*'
