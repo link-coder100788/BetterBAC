@@ -312,6 +312,7 @@ mod engine {
         " later ",
     ];
     const FIRST_PERSON: &[&str] = &["i", "me", "my", "myself", "i'm", "i've", "i'd", "i'll"];
+    const WENT_WRONG: &[&str] = &["wrong", "dificult", "issue", "problem", "challenge", "obstacle", "complication", "hurdle", "constraint"];
 
     /// Text signals that count as evidence for each outcome, indexed by `LearningOutcome as usize`.
     const OUTCOME_EVIDENCE: [&[&str]; 7] = [
@@ -404,6 +405,7 @@ mod engine {
         future: bool,
         narrative_markers: u32,
         tagged: Vec<LearningOutcome>,
+        difficulties: Vec<String>,
         /// Outcomes with textual evidence.
         evidenced: Vec<LearningOutcome>,
     }
@@ -436,7 +438,15 @@ mod engine {
                         .map(|t| t.to_string())
                 })
                 .collect();
-
+            let difficulties = WENT_WRONG
+                .iter()
+                .filter_map(|f| {
+                    tokens
+                        .iter()
+                        .find(|t| t.starts_with(f))
+                        .map(|t| t.to_string())
+                })
+                .collect();
             Self {
                 words: tokens.len() as u32,
                 sentences: draft
@@ -453,6 +463,7 @@ mod engine {
                     .map(|m| text.matches(m).count() as u32)
                     .sum(),
                 tagged: draft.outcomes.clone(),
+                difficulties,
                 evidenced: LearningOutcome::ALL
                     .into_iter()
                     .filter(|o| has(OUTCOME_EVIDENCE[*o as usize]))
@@ -551,6 +562,7 @@ mod engine {
             Box::new(SharesFeelings),
             Box::new(LooksAhead),
             Box::new(GoodLength),
+            Box::new(WentWrong),
             // Suggestions
             Box::new(TooShort),
             Box::new(NoLearning),
@@ -559,6 +571,7 @@ mod engine {
             Box::new(MostlyNarrative),
             Box::new(NotAboutYou),
             Box::new(NoOutcomesTagged),
+            Box::new(TooLong),
         ];
         for o in LearningOutcome::ALL {
             rules.push(Box::new(TaggedWithoutEvidence(o)));
@@ -654,6 +667,20 @@ mod engine {
         }
         fn priority(&self) -> u8 {
             30
+        }
+    }
+
+    struct WentWrong;
+    impl Encouragement for WentWrong {
+        fn applies(&self, a: &Analysis) -> bool {
+            !a.difficulties.is_empty()
+        }
+        fn respond(&self, _: &Analysis, _: &mut Variety) -> CoachTip {
+            tip(
+                TipKind::Praise,
+                "Included difficulties",
+                "Including challenges is a good way to show learning"
+            )
         }
     }
 
@@ -793,6 +820,20 @@ mod engine {
         }
         fn priority(&self) -> u8 {
             40
+        }
+    }
+
+    struct TooLong;
+    impl Encouragement for TooLong {
+        fn applies(&self, a: &Analysis) -> bool {
+            a.words >= 750
+        }
+        fn respond(&self, a: &Analysis, _: &mut Variety) -> CoachTip {
+            tip(
+                TipKind::Suggestion,
+                "Try to shorten your reflection",
+                format!("You currently have {} words, try to keep your reflection under 750", a.words),
+            )
         }
     }
 
