@@ -13,6 +13,18 @@ Built with Flutter and Rust for iOS, Android, macOS, Windows and the web.
 <sub>No sign-up. Your data stays in your own browser. Tip: Profile → Developer
 menu → *Seed sample data* fills the app with a realistic example student.</sub>
 
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/home.png" width="190" alt="Home: streak, XP, crunch-week warning and daily goal"><br><sub><b>Home</b>: streak, XP, daily goal</sub></td>
+    <td align="center"><img src="docs/screenshots/coach.png" width="190" alt="Reflection coach feedback with score and tips"><br><sub><b>Reflection coach</b></sub></td>
+    <td align="center"><img src="docs/screenshots/calendar.png" width="190" alt="Calendar with crunch-week warning and workload strip"><br><sub><b>Crunch-week warnings</b></sub></td>
+    <td align="center"><img src="docs/screenshots/reflections.png" width="190" alt="Reflections: drafts and ones sent to ManageBAC"><br><sub><b>Reflections</b></sub></td>
+  </tr>
+</table>
+
+<sub>Screenshots from the web demo with sample data. On iPhone and Mac the
+coach uses Apple Intelligence.</sub>
+
 ---
 
 ## The problem
@@ -51,7 +63,9 @@ with one tap.
 | ✨ **Reflection coach** | Instant, private feedback on your writing: a strength score, what you did well, what to improve, and outcomes your writing shows but you forgot to tag. Uses **Apple Intelligence** on supported iPhones and Macs, and BetterBAC's own on-device coach everywhere else. |
 | 📋 **One-tap ManageBAC hand-off** | "Copy & open ManageBAC" copies your reflection and opens your CAS page. Just paste. |
 | 📅 **Every deadline in one calendar** | CAS, EE, TOK, IA, exams and homework, colour-coded, with tick-off. |
+| 🔗 **Apple & Google Calendar import** | Connect the calendars you already use. School exams and deadlines appear alongside your CAS work and count towards crunch-week warnings. Read-only: BetterBAC never changes your calendar. |
 | ⚠️ **Crunch-week warnings** | BetterBAC looks six weeks ahead. When big deadlines cluster, it warns you early so you can spread the work out. |
+| 🔔 **Reminders that save your streak** | Gentle notifications when your streak is at risk, the evening before a deadline, and before a crunch week. On iPhone, a **Live Activity** counts down to midnight on the lock screen and Dynamic Island (and appears in your Mac's menu bar). Each can be switched off. |
 | 🏆 **Achievements** | Badges for milestones like your first reflection, a 7-day streak, or evidencing all seven outcomes. |
 | 🎓 **Replayable app tour** | A Duolingo-style walkthrough of every feature, which comes back to show you what's new after updates. |
 
@@ -68,7 +82,8 @@ with one tap.
   any phone, not just the newest flagships.
 - **Private by design.** No accounts, no tracking, no server. Students
   (mostly under 18) write personal reflections, and **everything stays on
-  their device**. Even the AI feedback is generated on the device.
+  their device**. Even the AI feedback is generated on the device, reminders
+  are scheduled locally, and calendar import is read-only.
 
 ## How it works
 
@@ -77,12 +92,14 @@ with one tap.
 │ Flutter UI (Dart)            │  Duolingo-style screens, animations
 └──────────────┬───────────────┘
                │ flutter_rust_bridge
-┌──────────────▼───────────────┐      ┌────────────────────────────┐
-│ Rust core                    │◄────►│ Apple Intelligence (Swift)  │
-│ • SQLite store (local-first) │      │ Foundation Models, on-device│
-│ • XP, streaks, achievements  │      │ iOS / macOS 26+             │
-│ • Calendar + crunch detection│      └────────────────────────────┘
-│ • Reflection coach engine    │
+┌──────────────▼───────────────┐      ┌──────────────────────────────┐
+│ Rust core                    │◄────►│ Native plugins (Swift/Kotlin) │
+│ • SQLite store (local-first) │      │ • Apple Intelligence (coach)  │
+│ • XP, streaks, achievements  │      │ • Live Activity (ActivityKit) │
+│ • Calendar providers +       │      │ • Calendar import (EventKit,  │
+│   crunch-week detection      │      │   Android CalendarContract)   │
+│ • Reflection coach engine    │      │ • Local notifications         │
+│ • Reminder rules             │      └──────────────────────────────┘
 │ • App tour content           │
 └──────────────────────────────┘
 ```
@@ -107,9 +124,15 @@ with one tap.
   storage every couple of seconds. A tiny service worker enables the
   cross-origin isolation that multi-threaded WebAssembly needs, so it runs
   on plain static hosting like GitHub Pages.
-- **Extensible calendar.** Events come from pluggable `EventProvider`s. Today
-  that's events you add yourself; a ManageBAC calendar feed is a drop-in
-  addition.
+- **Pluggable calendar.** Events come from `EventProvider`s: events you add
+  yourself, plus events imported from the device's calendars (Apple Calendar
+  on iPhone and Mac, Google Calendar on Android). Imported titles are mapped to
+  IB categories (an "exam" counts as an exam), so they feed crunch-week
+  detection. A ManageBAC calendar feed would be one more provider.
+- **Reminders as a plan.** Rust decides what should be scheduled right now:
+  notifications and the streak Live Activity. The app re-applies that plan
+  whenever data changes, so a reminder that no longer applies disappears on
+  its own. Each rule is a small Rust struct.
 
 ### Tech stack
 
@@ -119,6 +142,10 @@ with one tap.
 - [rusqlite](https://github.com/rusqlite/rusqlite) (bundled SQLite; [sqlite-wasm-rs](https://crates.io/crates/sqlite-wasm-rs) on the web), chrono, uuid
 - Apple [Foundation Models](https://developer.apple.com/documentation/foundationmodels)
   via a small Swift plugin (`packages/apple_coach`)
+- ActivityKit + WidgetKit (Live Activity), EventKit and Android
+  `CalendarContract` (calendar import), via local Swift/Kotlin plugins
+- [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
+  for reminders
 
 ## Getting started
 
@@ -192,17 +219,22 @@ http://localhost:8000/BetterBAC/.
 rust/src/
   api/          Functions and types exposed to Dart
     coach.rs    Reflection coach (analysis, rules, AI prompt and merge)
+    reminders.rs  Notification + Live Activity rules
+    device_calendar.rs  Apple / Google Calendar import
     tutorial.rs App tour content and versioning
     cas.rs, calendar.rs, app.rs, settings.rs, types.rs
   store/        SQLite schema, migrations, queries
-  calendar.rs   EventProvider trait and calendar service
+  calendar.rs   EventProvider trait, providers, calendar service
   progress.rs   XP, levels, streaks, achievements
   workload.rs   Crunch-week detection
 lib/
   screens/      Home, CAS, reflections, editor, calendar, profile, tour
   widgets/      Chunky buttons and cards, coach panel, workload strip
 packages/
-  apple_coach/  Swift bridge to Apple Intelligence (iOS + macOS)
+  apple_coach/             Swift bridge to Apple Intelligence (iOS + macOS)
+  live_activity/           Swift bridge to ActivityKit (iOS)
+  device_calendar_import/  EventKit (iOS + macOS) and CalendarContract (Android)
+ios/BetterBACWidgets/      Live Activity UI (SwiftUI widget extension)
 integration_test/
 ```
 
