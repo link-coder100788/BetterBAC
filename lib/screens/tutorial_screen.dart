@@ -263,6 +263,7 @@ Widget _illustration(TutorialStep step) => switch (step.id) {
   'managebac' => const _ManageBacDemo(),
   'calendar' => const _CalendarDemo(),
   'calendar_import' => const _CalendarImportDemo(),
+  'pressing_task' => const _PressingTaskDemo(),
   'crunch' => const _CrunchDemo(),
   'reminders' => const _RemindersDemo(),
   'achievements' => const _AchievementsDemo(),
@@ -683,6 +684,55 @@ class _CalendarImportDemo extends StatelessWidget {
         row('Math AA paper 2', 'Exam · Tue · School', EventCategory.exam),
         row('Chem lab report due', 'IA · Thu · School', EventCategory.internalAssessment),
       ],
+    );
+  }
+}
+
+class _PressingTaskDemo extends StatelessWidget {
+  const _PressingTaskDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    return ChunkyCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Row(
+            children: [
+              Icon(Icons.flag_circle_rounded, color: Palette.red, size: 30),
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'MOST PRESSING',
+                      style: TextStyle(
+                        color: Palette.red,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                    Text(
+                      'Math AA paper 2 mock',
+                      style: TextStyle(fontWeight: FontWeight.w900, fontSize: 16),
+                    ),
+                    Text('Exam · in 3 days', style: TextStyle(color: Palette.muted)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          ChunkyButton.outlined(
+            label: 'Add to Reminders',
+            icon: Icons.checklist_rounded,
+            onPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 }

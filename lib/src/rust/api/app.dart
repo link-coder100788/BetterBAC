@@ -7,6 +7,7 @@ import '../frb_generated.dart';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+import 'tasks.dart';
 import 'types.dart';
 
 /// Opens (creating if needed) the database at `db_path`. Call once at startup.

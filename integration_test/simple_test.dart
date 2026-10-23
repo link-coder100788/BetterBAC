@@ -13,6 +13,7 @@ import 'package:betterbac/src/rust/api/dev.dart';
 import 'package:betterbac/src/rust/api/device_calendar.dart';
 import 'package:betterbac/src/rust/api/reminders.dart';
 import 'package:betterbac/src/rust/api/settings.dart';
+import 'package:betterbac/src/rust/api/tasks.dart';
 import 'package:betterbac/src/rust/api/tutorial.dart';
 import 'package:betterbac/src/rust/api/types.dart';
 import 'package:betterbac/src/rust/frb_generated.dart';
@@ -249,6 +250,17 @@ void main() {
     );
     final after = await eventsBetween(start: window.start, end: window.end);
     expect(after.where((e) => e.source == 'device'), isEmpty);
+  });
+
+  test('Most pressing task and Reminders bookkeeping', () async {
+    // Earlier tests created deadlines, including three big ones in two weeks.
+    final task = await mostPressingTask();
+    expect(task, isNotNull);
+    expect(task!.alreadyAdded, isFalse);
+    expect((await getDashboard()).pressingTask, task);
+
+    await markAddedToReminders(key: task.key);
+    expect((await mostPressingTask())!.alreadyAdded, isTrue);
   });
 
   testWidgets('Developer menu: seed, inspect, query, clear', (tester) async {

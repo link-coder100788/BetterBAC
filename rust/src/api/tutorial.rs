@@ -18,7 +18,7 @@ use crate::progress;
 use crate::state::{self, with_core};
 
 /// Increase whenever steps are added.
-const TUTORIAL_VERSION: u32 = 3;
+const TUTORIAL_VERSION: u32 = 4;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TutorialAccent {
@@ -180,6 +180,16 @@ fn all_steps() -> Vec<TutorialStep> {
                 "event_repeat",
                 "Bring in your calendar",
                 "Connect Apple Calendar (Google Calendar on Android) from the Calendar tab. Exams and deadlines show up next to your CAS work and count towards crunch-week warnings. BetterBAC only reads your calendar.",
+            )
+        },
+        TutorialStep {
+            since: 4,
+            ..step(
+                "pressing_task",
+                Red,
+                "flag",
+                "Know what to do next",
+                "Home shows your most pressing task, the deadline that matters most soonest. On iPhone and Mac, one tap adds it to Apple Reminders so it nudges you the evening before.",
             )
         },
         step(

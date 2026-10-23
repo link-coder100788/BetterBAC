@@ -10,6 +10,7 @@ pub mod dev;
 pub mod device_calendar;
 pub mod reminders;
 pub mod settings;
+pub mod tasks;
 pub mod tutorial;
 pub mod types;
 pub mod web;

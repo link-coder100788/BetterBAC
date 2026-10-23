@@ -117,3 +117,44 @@ class DeviceCalendarImport {
     ];
   }
 }
+
+/// Why adding to Apple Reminders failed.
+enum AppleRemindersError { denied, noList, failed }
+
+/// Creates reminders in Apple Reminders (iPhone and Mac only).
+class AppleReminders {
+  static const _channel = MethodChannel('betterbac/device_calendar');
+
+  static bool get isAvailableOnPlatform =>
+      !kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.iOS ||
+          defaultTargetPlatform == TargetPlatform.macOS);
+
+  /// Adds a reminder (asking for Reminders access the first time).
+  /// Returns null on success, or why it failed.
+  static Future<AppleRemindersError?> add({
+    required String title,
+    String notes = '',
+    DateTime? due,
+    bool allDay = false,
+    DateTime? remindAt,
+  }) async {
+    if (!isAvailableOnPlatform) return AppleRemindersError.failed;
+    try {
+      await _channel.invokeMethod<String>('addReminder', {
+        'title': title,
+        'notes': notes,
+        'dueMs': due?.millisecondsSinceEpoch,
+        'allDay': allDay,
+        'remindMs': remindAt?.millisecondsSinceEpoch,
+      });
+      return null;
+    } on PlatformException catch (e) {
+      return switch (e.code) {
+        'denied' => AppleRemindersError.denied,
+        'no_list' => AppleRemindersError.noList,
+        _ => AppleRemindersError.failed,
+      };
+    }
+  }
+}

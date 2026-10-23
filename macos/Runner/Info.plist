@@ -32,5 +32,9 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>BetterBAC adds your most pressing deadline to Reminders when you ask it to, so you get reminded at the right time.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>BetterBAC adds your most pressing deadline to Reminders when you ask it to, so you get reminded at the right time.</string>
 </dict>
 </plist>

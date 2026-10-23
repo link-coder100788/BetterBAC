@@ -10,7 +10,7 @@ use crate::calendar::{local_date, local_midnight};
 pub const DEFAULT_WEEKS: u32 = 6;
 
 /// How much an event contributes to a week's load.
-fn weight(c: EventCategory) -> u32 {
+pub(crate) fn weight(c: EventCategory) -> u32 {
     match c {
         EventCategory::Exam | EventCategory::ExtendedEssay | EventCategory::InternalAssessment => 3,
         EventCategory::Tok => 2,

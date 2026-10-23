@@ -30,6 +30,10 @@
 	<string>BetterBAC imports your calendar events so deadlines, exams and crunch weeks show up alongside your CAS work. It only reads; it never changes your calendar.</string>
 	<key>NSCalendarsUsageDescription</key>
 	<string>BetterBAC imports your calendar events so deadlines, exams and crunch weeks show up alongside your CAS work. It only reads; it never changes your calendar.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>BetterBAC adds your most pressing deadline to Reminders when you ask it to, so you get reminded at the right time.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>BetterBAC adds your most pressing deadline to Reminders when you ask it to, so you get reminded at the right time.</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>

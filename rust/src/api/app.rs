@@ -73,6 +73,7 @@ pub fn get_dashboard() -> Result<Dashboard> {
                 .workload(store, today, workload::DEFAULT_WEEKS)
                 .warning,
             draft_count: stats.reflection_drafts,
+            pressing_task: super::tasks::pressing_task_in(store, calendar, now)?,
         })
     })
 }

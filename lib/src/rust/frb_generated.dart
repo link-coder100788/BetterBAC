@@ -11,6 +11,7 @@ import 'api/dev.dart';
 import 'api/device_calendar.dart';
 import 'api/reminders.dart';
 import 'api/settings.dart';
+import 'api/tasks.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
 import 'api/web.dart';
@@ -79,7 +80,7 @@ class RustLib extends BaseEntrypoint<RustLibApi, RustLibApiImpl, RustLibWire> {
   String get codegenVersion => '2.13.0';
 
   @override
-  int get rustContentHash => -59115801;
+  int get rustContentHash => -602847411;
 
   static const kDefaultExternalLibraryLoaderConfig =
       ExternalLibraryLoaderConfig(
@@ -200,12 +201,16 @@ abstract class RustLibApi extends BaseApi {
 
   String crateApiTypesLoadLevelLabel({required LoadLevel that});
 
+  Future<void> crateApiTasksMarkAddedToReminders({required String key});
+
   Future<void> crateApiTutorialMarkTutorialSeen();
 
   Future<MonthOverview> crateApiCalendarMonthOverview({
     required int year,
     required int month,
   });
+
+  Future<PressingTask?> crateApiTasksMostPressingTask();
 
   List<String> crateApiCasReflectionPrompts({
     required List<LearningOutcome> outcomes,
@@ -1469,6 +1474,37 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       const TaskConstMeta(debugName: "load_level_label", argNames: ["that"]);
 
   @override
+  Future<void> crateApiTasksMarkAddedToReminders({required String key}) {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          sse_encode_String(key, serializer);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 44,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_unit,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiTasksMarkAddedToRemindersConstMeta,
+        argValues: [key],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTasksMarkAddedToRemindersConstMeta =>
+      const TaskConstMeta(
+        debugName: "mark_added_to_reminders",
+        argNames: ["key"],
+      );
+
+  @override
   Future<void> crateApiTutorialMarkTutorialSeen() {
     return handler.executeNormal(
       NormalTask(
@@ -1477,7 +1513,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 44,
+            funcId: 45,
             port: port_,
           );
         },
@@ -1509,7 +1545,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 45,
+            funcId: 46,
             port: port_,
           );
         },
@@ -1531,6 +1567,33 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       );
 
   @override
+  Future<PressingTask?> crateApiTasksMostPressingTask() {
+    return handler.executeNormal(
+      NormalTask(
+        callFfi: (port_) {
+          final serializer = SseSerializer(generalizedFrbRustBinding);
+          pdeCallFfi(
+            generalizedFrbRustBinding,
+            serializer,
+            funcId: 47,
+            port: port_,
+          );
+        },
+        codec: SseCodec(
+          decodeSuccessData: sse_decode_opt_box_autoadd_pressing_task,
+          decodeErrorData: sse_decode_AnyhowException,
+        ),
+        constMeta: kCrateApiTasksMostPressingTaskConstMeta,
+        argValues: [],
+        apiImpl: this,
+      ),
+    );
+  }
+
+  TaskConstMeta get kCrateApiTasksMostPressingTaskConstMeta =>
+      const TaskConstMeta(debugName: "most_pressing_task", argNames: []);
+
+  @override
   List<String> crateApiCasReflectionPrompts({
     required List<LearningOutcome> outcomes,
   }) {
@@ -1539,7 +1602,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_list_learning_outcome(outcomes, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 46)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 48)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_String,
@@ -1567,7 +1630,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 47,
+            funcId: 49,
             port: port_,
           );
         },
@@ -1594,7 +1657,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 48,
+            funcId: 50,
             port: port_,
           );
         },
@@ -1626,7 +1689,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 49,
+            funcId: 51,
             port: port_,
           );
         },
@@ -1658,7 +1721,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 50,
+            funcId: 52,
             port: port_,
           );
         },
@@ -1693,7 +1756,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 51,
+            funcId: 53,
             port: port_,
           );
         },
@@ -1726,7 +1789,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 52,
+            funcId: 54,
             port: port_,
           );
         },
@@ -1751,7 +1814,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_strand(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 53)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 55)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_String,
@@ -1776,7 +1839,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 54,
+            funcId: 56,
             port: port_,
           );
         },
@@ -1801,7 +1864,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tutorial_status(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 55)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1827,7 +1890,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_box_autoadd_tutorial_status(that, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 56)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 58)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_bool,
@@ -1855,7 +1918,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
         callFfi: () {
           final serializer = SseSerializer(generalizedFrbRustBinding);
           sse_encode_u_32(afterVersion, serializer);
-          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 57)!;
+          return pdeCallFfi(generalizedFrbRustBinding, serializer, funcId: 59)!;
         },
         codec: SseCodec(
           decodeSuccessData: sse_decode_list_tutorial_step,
@@ -1886,7 +1949,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 58,
+            funcId: 60,
             port: port_,
           );
         },
@@ -1918,7 +1981,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 59,
+            funcId: 61,
             port: port_,
           );
         },
@@ -1950,7 +2013,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 60,
+            funcId: 62,
             port: port_,
           );
         },
@@ -1983,7 +2046,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 61,
+            funcId: 63,
             port: port_,
           );
         },
@@ -2011,7 +2074,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 62,
+            funcId: 64,
             port: port_,
           );
         },
@@ -2038,7 +2101,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 63,
+            funcId: 65,
             port: port_,
           );
         },
@@ -2068,7 +2131,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
           pdeCallFfi(
             generalizedFrbRustBinding,
             serializer,
-            funcId: 64,
+            funcId: 66,
             port: port_,
           );
         },
@@ -2211,6 +2274,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PressingTask dco_decode_box_autoadd_pressing_task(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return dco_decode_pressing_task(raw);
+  }
+
+  @protected
   ReflectionDraft dco_decode_box_autoadd_reflection_draft(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return dco_decode_reflection_draft(raw);
@@ -2332,8 +2401,8 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   Dashboard dco_decode_dashboard(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     final arr = raw as List<dynamic>;
-    if (arr.length != 12)
-      throw Exception('unexpected arr length: expect 12 but see ${arr.length}');
+    if (arr.length != 13)
+      throw Exception('unexpected arr length: expect 13 but see ${arr.length}');
     return Dashboard(
       displayName: dco_decode_String(arr[0]),
       totalXp: dco_decode_u_32(arr[1]),
@@ -2347,6 +2416,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       upcoming: dco_decode_list_calendar_event(arr[9]),
       crunch: dco_decode_opt_box_autoadd_crunch_warning(arr[10]),
       draftCount: dco_decode_u_32(arr[11]),
+      pressingTask: dco_decode_opt_box_autoadd_pressing_task(arr[12]),
     );
   }
 
@@ -2754,6 +2824,12 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PressingTask? dco_decode_opt_box_autoadd_pressing_task(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    return raw == null ? null : dco_decode_box_autoadd_pressing_task(raw);
+  }
+
+  @protected
   StreakActivity? dco_decode_opt_box_autoadd_streak_activity(dynamic raw) {
     // Codec=Dco (DartCObject based), see doc to use other codecs
     return raw == null ? null : dco_decode_box_autoadd_streak_activity(raw);
@@ -2794,6 +2870,24 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       fireAt: dco_decode_Chrono_Utc(arr[1]),
       title: dco_decode_String(arr[2]),
       body: dco_decode_String(arr[3]),
+    );
+  }
+
+  @protected
+  PressingTask dco_decode_pressing_task(dynamic raw) {
+    // Codec=Dco (DartCObject based), see doc to use other codecs
+    final arr = raw as List<dynamic>;
+    if (arr.length != 8)
+      throw Exception('unexpected arr length: expect 8 but see ${arr.length}');
+    return PressingTask(
+      key: dco_decode_String(arr[0]),
+      title: dco_decode_String(arr[1]),
+      reason: dco_decode_String(arr[2]),
+      notes: dco_decode_String(arr[3]),
+      dueAt: dco_decode_opt_box_autoadd_Chrono_Utc(arr[4]),
+      allDay: dco_decode_bool(arr[5]),
+      remindAt: dco_decode_opt_box_autoadd_Chrono_Utc(arr[6]),
+      alreadyAdded: dco_decode_bool(arr[7]),
     );
   }
 
@@ -3163,6 +3257,14 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PressingTask sse_decode_box_autoadd_pressing_task(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    return (sse_decode_pressing_task(deserializer));
+  }
+
+  @protected
   ReflectionDraft sse_decode_box_autoadd_reflection_draft(
     SseDeserializer deserializer,
   ) {
@@ -3314,6 +3416,9 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     var var_upcoming = sse_decode_list_calendar_event(deserializer);
     var var_crunch = sse_decode_opt_box_autoadd_crunch_warning(deserializer);
     var var_draftCount = sse_decode_u_32(deserializer);
+    var var_pressingTask = sse_decode_opt_box_autoadd_pressing_task(
+      deserializer,
+    );
     return Dashboard(
       displayName: var_displayName,
       totalXp: var_totalXp,
@@ -3327,6 +3432,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       upcoming: var_upcoming,
       crunch: var_crunch,
       draftCount: var_draftCount,
+      pressingTask: var_pressingTask,
     );
   }
 
@@ -3913,6 +4019,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  PressingTask? sse_decode_opt_box_autoadd_pressing_task(
+    SseDeserializer deserializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    if (sse_decode_bool(deserializer)) {
+      return (sse_decode_box_autoadd_pressing_task(deserializer));
+    } else {
+      return null;
+    }
+  }
+
+  @protected
   StreakActivity? sse_decode_opt_box_autoadd_streak_activity(
     SseDeserializer deserializer,
   ) {
@@ -3969,6 +4088,29 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
       fireAt: var_fireAt,
       title: var_title,
       body: var_body,
+    );
+  }
+
+  @protected
+  PressingTask sse_decode_pressing_task(SseDeserializer deserializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    var var_key = sse_decode_String(deserializer);
+    var var_title = sse_decode_String(deserializer);
+    var var_reason = sse_decode_String(deserializer);
+    var var_notes = sse_decode_String(deserializer);
+    var var_dueAt = sse_decode_opt_box_autoadd_Chrono_Utc(deserializer);
+    var var_allDay = sse_decode_bool(deserializer);
+    var var_remindAt = sse_decode_opt_box_autoadd_Chrono_Utc(deserializer);
+    var var_alreadyAdded = sse_decode_bool(deserializer);
+    return PressingTask(
+      key: var_key,
+      title: var_title,
+      reason: var_reason,
+      notes: var_notes,
+      dueAt: var_dueAt,
+      allDay: var_allDay,
+      remindAt: var_remindAt,
+      alreadyAdded: var_alreadyAdded,
     );
   }
 
@@ -4350,6 +4492,15 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_box_autoadd_pressing_task(
+    PressingTask self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_pressing_task(self, serializer);
+  }
+
+  @protected
   void sse_encode_box_autoadd_reflection_draft(
     ReflectionDraft self,
     SseSerializer serializer,
@@ -4472,6 +4623,7 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_list_calendar_event(self.upcoming, serializer);
     sse_encode_opt_box_autoadd_crunch_warning(self.crunch, serializer);
     sse_encode_u_32(self.draftCount, serializer);
+    sse_encode_opt_box_autoadd_pressing_task(self.pressingTask, serializer);
   }
 
   @protected
@@ -4958,6 +5110,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
   }
 
   @protected
+  void sse_encode_opt_box_autoadd_pressing_task(
+    PressingTask? self,
+    SseSerializer serializer,
+  ) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+
+    sse_encode_bool(self != null, serializer);
+    if (self != null) {
+      sse_encode_box_autoadd_pressing_task(self, serializer);
+    }
+  }
+
+  @protected
   void sse_encode_opt_box_autoadd_streak_activity(
     StreakActivity? self,
     SseSerializer serializer,
@@ -5013,6 +5178,19 @@ class RustLibApiImpl extends RustLibApiImplPlatform implements RustLibApi {
     sse_encode_Chrono_Utc(self.fireAt, serializer);
     sse_encode_String(self.title, serializer);
     sse_encode_String(self.body, serializer);
+  }
+
+  @protected
+  void sse_encode_pressing_task(PressingTask self, SseSerializer serializer) {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    sse_encode_String(self.key, serializer);
+    sse_encode_String(self.title, serializer);
+    sse_encode_String(self.reason, serializer);
+    sse_encode_String(self.notes, serializer);
+    sse_encode_opt_box_autoadd_Chrono_Utc(self.dueAt, serializer);
+    sse_encode_bool(self.allDay, serializer);
+    sse_encode_opt_box_autoadd_Chrono_Utc(self.remindAt, serializer);
+    sse_encode_bool(self.alreadyAdded, serializer);
   }
 
   @protected

@@ -379,6 +379,8 @@ pub struct Dashboard {
     pub upcoming: Vec<CalendarEvent>,
     pub crunch: Option<CrunchWarning>,
     pub draft_count: u32,
+    /// The one thing to do next (see `api::tasks`).
+    pub pressing_task: Option<super::tasks::PressingTask>,
 }
 
 // ---------------------------------------------------------------------------

@@ -7,6 +7,8 @@ import '../frb_generated.dart';
 
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
+import 'tasks.dart';
+
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `assert_fields_are_eq`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `clone`, `cmp`, `eq`, `eq`, `eq`, `eq`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `fmt`, `hash`, `hash`, `hash`, `partial_cmp`
 
 class Achievement {
@@ -171,6 +173,9 @@ class Dashboard {
   final CrunchWarning? crunch;
   final int draftCount;
 
+  /// The one thing to do next (see `api::tasks`).
+  final PressingTask? pressingTask;
+
   const Dashboard({
     required this.displayName,
     required this.totalXp,
@@ -184,6 +189,7 @@ class Dashboard {
     required this.upcoming,
     this.crunch,
     required this.draftCount,
+    this.pressingTask,
   });
 
   @override
@@ -199,7 +205,8 @@ class Dashboard {
       outcomeCoverage.hashCode ^
       upcoming.hashCode ^
       crunch.hashCode ^
-      draftCount.hashCode;
+      draftCount.hashCode ^
+      pressingTask.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -217,7 +224,8 @@ class Dashboard {
           outcomeCoverage == other.outcomeCoverage &&
           upcoming == other.upcoming &&
           crunch == other.crunch &&
-          draftCount == other.draftCount;
+          draftCount == other.draftCount &&
+          pressingTask == other.pressingTask;
 }
 
 class DayActivity {

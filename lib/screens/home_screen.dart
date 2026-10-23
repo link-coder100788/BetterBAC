@@ -1,7 +1,9 @@
+import 'package:device_calendar_import/device_calendar_import.dart';
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
 import '../src/rust/api/app.dart';
+import '../src/rust/api/tasks.dart';
 import '../src/rust/api/types.dart';
 import '../theme.dart';
 import '../widgets/chunky.dart';
@@ -35,6 +37,10 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
             ],
             _DailyGoalCard(dashboard: d),
+            if (d.pressingTask case final task?) ...[
+              const SizedBox(height: 16),
+              _PressingTaskCard(task: task),
+            ],
             const SizedBox(height: 16),
             ChunkyButton(
               label: 'Write a reflection',
@@ -337,6 +343,109 @@ class _StrandBalance extends StatelessWidget {
           if (c != counts.last) const SizedBox(width: 10),
         ],
       ],
+    );
+  }
+}
+
+/// The one thing to do next, with "Add to Reminders" on iPhone and Mac.
+class _PressingTaskCard extends StatefulWidget {
+  const _PressingTaskCard({required this.task});
+
+  final PressingTask task;
+
+  @override
+  State<_PressingTaskCard> createState() => _PressingTaskCardState();
+}
+
+class _PressingTaskCardState extends State<_PressingTaskCard> {
+  bool _adding = false;
+
+  Future<void> _addToReminders() async {
+    final t = widget.task;
+    final messenger = ScaffoldMessenger.of(context);
+    setState(() => _adding = true);
+    final error = await AppleReminders.add(
+      title: t.title,
+      notes: t.notes,
+      due: t.dueAt,
+      allDay: t.allDay,
+      remindAt: t.remindAt,
+    );
+    if (!mounted) return;
+    if (error == null) {
+      await guard(context, () => markAddedToReminders(key: t.key));
+      notifyDataChanged();
+    }
+    if (!mounted) return;
+    setState(() => _adding = false);
+    messenger.showSnackBar(
+      SnackBar(
+        content: Text(switch (error) {
+          null => 'Added to Reminders.',
+          AppleRemindersError.denied =>
+            'Allow Reminders access for BetterBAC in Settings to add tasks.',
+          AppleRemindersError.noList => 'Create a list in the Reminders app first.',
+          AppleRemindersError.failed => "Couldn't add to Reminders. Try again.",
+        }),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = widget.task;
+    return ChunkyCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.flag_circle_rounded, color: Palette.red, size: 30),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'MOST PRESSING',
+                      style: TextStyle(
+                        color: Palette.red,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 12,
+                        letterSpacing: 0.8,
+                      ),
+                    ),
+                    Text(t.title, style: Theme.of(context).textTheme.titleMedium),
+                    Text(t.reason, style: const TextStyle(color: Palette.muted)),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          if (AppleReminders.isAvailableOnPlatform) ...[
+            const SizedBox(height: 12),
+            t.alreadyAdded
+                ? const Row(
+                    children: [
+                      Icon(Icons.check_circle_rounded, color: Palette.green, size: 20),
+                      SizedBox(width: 6),
+                      Text(
+                        'Added to Reminders',
+                        style: TextStyle(
+                          color: Palette.greenLip,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ],
+                  )
+                : ChunkyButton.outlined(
+                    label: _adding ? 'Adding…' : 'Add to Reminders',
+                    icon: Icons.checklist_rounded,
+                    onPressed: _adding ? null : _addToReminders,
+                  ),
+          ],
+        ],
+      ),
     );
   }
 }

@@ -14,6 +14,7 @@ import 'api/dev.dart';
 import 'api/device_calendar.dart';
 import 'api/reminders.dart';
 import 'api/settings.dart';
+import 'api/tasks.dart';
 import 'api/tutorial.dart';
 import 'api/types.dart';
 import 'api/web.dart';
@@ -80,6 +81,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   LearningOutcome dco_decode_box_autoadd_learning_outcome(dynamic raw);
+
+  @protected
+  PressingTask dco_decode_box_autoadd_pressing_task(dynamic raw);
 
   @protected
   ReflectionDraft dco_decode_box_autoadd_reflection_draft(dynamic raw);
@@ -259,6 +263,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   LearningOutcome? dco_decode_opt_box_autoadd_learning_outcome(dynamic raw);
 
   @protected
+  PressingTask? dco_decode_opt_box_autoadd_pressing_task(dynamic raw);
+
+  @protected
   StreakActivity? dco_decode_opt_box_autoadd_streak_activity(dynamic raw);
 
   @protected
@@ -272,6 +279,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlannedNotification dco_decode_planned_notification(dynamic raw);
+
+  @protected
+  PressingTask dco_decode_pressing_task(dynamic raw);
 
   @protected
   Reflection dco_decode_reflection(dynamic raw);
@@ -393,6 +403,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   LearningOutcome sse_decode_box_autoadd_learning_outcome(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  PressingTask sse_decode_box_autoadd_pressing_task(
     SseDeserializer deserializer,
   );
 
@@ -604,6 +619,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  PressingTask? sse_decode_opt_box_autoadd_pressing_task(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   StreakActivity? sse_decode_opt_box_autoadd_streak_activity(
     SseDeserializer deserializer,
   );
@@ -621,6 +641,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   PlannedNotification sse_decode_planned_notification(
     SseDeserializer deserializer,
   );
+
+  @protected
+  PressingTask sse_decode_pressing_task(SseDeserializer deserializer);
 
   @protected
   Reflection sse_decode_reflection(SseDeserializer deserializer);
@@ -760,6 +783,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_learning_outcome(
     LearningOutcome self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_pressing_task(
+    PressingTask self,
     SseSerializer serializer,
   );
 
@@ -1028,6 +1057,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_opt_box_autoadd_pressing_task(
+    PressingTask? self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_opt_box_autoadd_streak_activity(
     StreakActivity? self,
     SseSerializer serializer,
@@ -1053,6 +1088,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     PlannedNotification self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_pressing_task(PressingTask self, SseSerializer serializer);
 
   @protected
   void sse_encode_reflection(Reflection self, SseSerializer serializer);

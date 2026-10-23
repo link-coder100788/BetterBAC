@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -59115801;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -602847411;
 
 // Section: executor
 
@@ -1493,6 +1493,41 @@ fn wire__crate__api__types__load_level_label_impl(
         },
     )
 }
+fn wire__crate__api__tasks__mark_added_to_reminders_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "mark_added_to_reminders",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_key = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::tasks::mark_added_to_reminders(api_key)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__tutorial__mark_tutorial_seen_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -1556,6 +1591,40 @@ fn wire__crate__api__calendar__month_overview_impl(
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::calendar::month_overview(api_year, api_month)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__tasks__most_pressing_task_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "most_pressing_task",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::tasks::most_pressing_task()?;
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
@@ -2418,6 +2487,8 @@ impl SseDecode for crate::api::types::Dashboard {
         let mut var_upcoming = <Vec<crate::api::types::CalendarEvent>>::sse_decode(deserializer);
         let mut var_crunch = <Option<crate::api::types::CrunchWarning>>::sse_decode(deserializer);
         let mut var_draftCount = <u32>::sse_decode(deserializer);
+        let mut var_pressingTask =
+            <Option<crate::api::tasks::PressingTask>>::sse_decode(deserializer);
         return crate::api::types::Dashboard {
             display_name: var_displayName,
             total_xp: var_totalXp,
@@ -2431,6 +2502,7 @@ impl SseDecode for crate::api::types::Dashboard {
             upcoming: var_upcoming,
             crunch: var_crunch,
             draft_count: var_draftCount,
+            pressing_task: var_pressingTask,
         };
     }
 }
@@ -3061,6 +3133,17 @@ impl SseDecode for Option<crate::api::types::LearningOutcome> {
     }
 }
 
+impl SseDecode for Option<crate::api::tasks::PressingTask> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(<crate::api::tasks::PressingTask>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
 impl SseDecode for Option<crate::api::reminders::StreakActivity> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3120,6 +3203,30 @@ impl SseDecode for crate::api::reminders::PlannedNotification {
             fire_at: var_fireAt,
             title: var_title,
             body: var_body,
+        };
+    }
+}
+
+impl SseDecode for crate::api::tasks::PressingTask {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_key = <String>::sse_decode(deserializer);
+        let mut var_title = <String>::sse_decode(deserializer);
+        let mut var_reason = <String>::sse_decode(deserializer);
+        let mut var_notes = <String>::sse_decode(deserializer);
+        let mut var_dueAt = <Option<chrono::DateTime<chrono::Utc>>>::sse_decode(deserializer);
+        let mut var_allDay = <bool>::sse_decode(deserializer);
+        let mut var_remindAt = <Option<chrono::DateTime<chrono::Utc>>>::sse_decode(deserializer);
+        let mut var_alreadyAdded = <bool>::sse_decode(deserializer);
+        return crate::api::tasks::PressingTask {
+            key: var_key,
+            title: var_title,
+            reason: var_reason,
+            notes: var_notes,
+            due_at: var_dueAt,
+            all_day: var_allDay,
+            remind_at: var_remindAt,
+            already_added: var_alreadyAdded,
         };
     }
 }
@@ -3469,34 +3576,38 @@ fn pde_ffi_dispatcher_primary_impl(
         41 => wire__crate__api__cas__list_experiences_impl(port, ptr, rust_vec_len, data_len),
         42 => wire__crate__api__cas__list_reflections_impl(port, ptr, rust_vec_len, data_len),
         44 => {
+            wire__crate__api__tasks__mark_added_to_reminders_impl(port, ptr, rust_vec_len, data_len)
+        }
+        45 => {
             wire__crate__api__tutorial__mark_tutorial_seen_impl(port, ptr, rust_vec_len, data_len)
         }
-        45 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
-        47 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
-        48 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
-        49 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
-        50 => wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
+        46 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
+        47 => wire__crate__api__tasks__most_pressing_task_impl(port, ptr, rust_vec_len, data_len),
+        49 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
+        50 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
+        51 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
+        52 => wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        51 => {
+        53 => {
             wire__crate__api__calendar__set_event_completed_impl(port, ptr, rust_vec_len, data_len)
         }
-        52 => {
+        54 => {
             wire__crate__api__reminders__set_reminder_prefs_impl(port, ptr, rust_vec_len, data_len)
         }
-        54 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
-        58 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
-        59 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
-        60 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
-        61 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
-        62 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
-        63 => {
+        56 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
+        63 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
+        65 => {
             wire__crate__api__web__web_snapshot_if_changed_impl(port, ptr, rust_vec_len, data_len)
         }
-        64 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3532,15 +3643,15 @@ fn pde_ffi_dispatcher_sync_impl(
             wire__crate__api__types__learning_outcome_short_name_impl(ptr, rust_vec_len, data_len)
         }
         43 => wire__crate__api__types__load_level_label_impl(ptr, rust_vec_len, data_len),
-        46 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
-        55 => {
+        48 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
+        57 => {
             wire__crate__api__tutorial__tutorial_status_is_update_impl(ptr, rust_vec_len, data_len)
         }
-        56 => {
+        58 => {
             wire__crate__api__tutorial__tutorial_status_needs_tour_impl(ptr, rust_vec_len, data_len)
         }
-        57 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3763,6 +3874,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::Dashboard {
             self.upcoming.into_into_dart().into_dart(),
             self.crunch.into_into_dart().into_dart(),
             self.draft_count.into_into_dart().into_dart(),
+            self.pressing_task.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -4229,6 +4341,33 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::reminders::PlannedNotificatio
     for crate::api::reminders::PlannedNotification
 {
     fn into_into_dart(self) -> crate::api::reminders::PlannedNotification {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::tasks::PressingTask {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.key.into_into_dart().into_dart(),
+            self.title.into_into_dart().into_dart(),
+            self.reason.into_into_dart().into_dart(),
+            self.notes.into_into_dart().into_dart(),
+            self.due_at.into_into_dart().into_dart(),
+            self.all_day.into_into_dart().into_dart(),
+            self.remind_at.into_into_dart().into_dart(),
+            self.already_added.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::tasks::PressingTask
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::tasks::PressingTask>
+    for crate::api::tasks::PressingTask
+{
+    fn into_into_dart(self) -> crate::api::tasks::PressingTask {
         self
     }
 }
@@ -4738,6 +4877,7 @@ impl SseEncode for crate::api::types::Dashboard {
         <Vec<crate::api::types::CalendarEvent>>::sse_encode(self.upcoming, serializer);
         <Option<crate::api::types::CrunchWarning>>::sse_encode(self.crunch, serializer);
         <u32>::sse_encode(self.draft_count, serializer);
+        <Option<crate::api::tasks::PressingTask>>::sse_encode(self.pressing_task, serializer);
     }
 }
 
@@ -5226,6 +5366,16 @@ impl SseEncode for Option<crate::api::types::LearningOutcome> {
     }
 }
 
+impl SseEncode for Option<crate::api::tasks::PressingTask> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::tasks::PressingTask>::sse_encode(value, serializer);
+        }
+    }
+}
+
 impl SseEncode for Option<crate::api::reminders::StreakActivity> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5271,6 +5421,20 @@ impl SseEncode for crate::api::reminders::PlannedNotification {
         <chrono::DateTime<chrono::Utc>>::sse_encode(self.fire_at, serializer);
         <String>::sse_encode(self.title, serializer);
         <String>::sse_encode(self.body, serializer);
+    }
+}
+
+impl SseEncode for crate::api::tasks::PressingTask {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.key, serializer);
+        <String>::sse_encode(self.title, serializer);
+        <String>::sse_encode(self.reason, serializer);
+        <String>::sse_encode(self.notes, serializer);
+        <Option<chrono::DateTime<chrono::Utc>>>::sse_encode(self.due_at, serializer);
+        <bool>::sse_encode(self.all_day, serializer);
+        <Option<chrono::DateTime<chrono::Utc>>>::sse_encode(self.remind_at, serializer);
+        <bool>::sse_encode(self.already_added, serializer);
     }
 }
 
