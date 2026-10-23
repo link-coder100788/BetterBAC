@@ -114,7 +114,7 @@ with one tap.
 ### Tech stack
 
 - [Flutter](https://flutter.dev) 3.47 / Dart 3.13
-- [Rust](https://www.rust-lang.org) 2021 edition
+- [Rust](https://www.rust-lang.org) 2024 edition
 - [flutter_rust_bridge](https://github.com/fzyzcjy/flutter_rust_bridge) 2.13
 - [rusqlite](https://github.com/rusqlite/rusqlite) (bundled SQLite; [sqlite-wasm-rs](https://crates.io/crates/sqlite-wasm-rs) on the web), chrono, uuid
 - Apple [Foundation Models](https://developer.apple.com/documentation/foundationmodels)
