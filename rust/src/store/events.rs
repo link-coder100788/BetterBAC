@@ -25,6 +25,7 @@ fn from_row(row: &Row) -> rusqlite::Result<CalendarEvent> {
         ends_at: opt_from_millis(row.get(5)?),
         all_day: row.get(6)?,
         completed: row.get(7)?,
+        calendar_name: None,
     })
 }
 

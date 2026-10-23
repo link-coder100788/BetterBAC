@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../app_state.dart';
+import '../device_calendar.dart';
 import '../src/rust/api/calendar.dart';
+import '../src/rust/api/device_calendar.dart';
 import '../src/rust/api/types.dart';
 import '../theme.dart';
+import '../widgets/calendar_import.dart';
 import '../widgets/chunky.dart';
 import '../widgets/event_tile.dart';
 import '../widgets/workload.dart';
 import 'event_form.dart';
 
 class _MonthData {
-  _MonthData(this.overview, this.events, this.workload);
+  _MonthData(this.overview, this.events, this.workload, this.importPrefs);
   final MonthOverview overview;
   final List<CalendarEvent> events;
   final WorkloadOutlook workload;
+
+  /// Null where device calendars aren't supported (web, Windows).
+  final DeviceCalendarPrefs? importPrefs;
 }
 
 class CalendarScreen extends StatefulWidget {
@@ -34,6 +40,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       await monthOverview(year: _month.year, month: _month.month),
       await eventsBetween(start: _month.toUtc(), end: next.toUtc()),
       await workloadOutlook(weeks: 6),
+      DeviceCalendar.supported ? await getDeviceCalendarPrefs() : null,
     );
   }
 
@@ -77,9 +84,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
         load: _load,
         builder: (context, data) {
           final dayEvents = _eventsOn(_selected, data.events);
+          final importPrefs = data.importPrefs;
           return ListView(
             padding: const EdgeInsets.all(20),
             children: [
+              if (importPrefs != null && importPrefs.enabled)
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () => manageDeviceCalendar(context, importPrefs),
+                    icon: const Icon(Icons.event_repeat_rounded, size: 18),
+                    label: Text(DeviceCalendar.providerName.toUpperCase()),
+                  ),
+                ),
               if (data.workload.warning case final warning?) ...[
                 CrunchCard(
                   warning: warning,
@@ -128,6 +145,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
               else
                 for (final e in dayEvents) EventTile(event: e),
               const SizedBox(height: 8),
+              if (importPrefs != null && !importPrefs.enabled) ...[
+                const CalendarImportCard(),
+                const SizedBox(height: 16),
+              ],
               ChunkyButton(
                 label: 'Add event',
                 icon: Icons.add_rounded,

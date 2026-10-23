@@ -72,7 +72,11 @@ class EventTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '${event.category.label()} · ${_when()}',
+                    [
+                      event.category.label(),
+                      _when(),
+                      ?event.calendarName,
+                    ].join(' · '),
                     style: const TextStyle(color: Palette.muted, fontSize: 13),
                   ),
                 ],

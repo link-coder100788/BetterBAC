@@ -235,6 +235,7 @@ IconData _icon(String name) => switch (name) {
   'warning' => Icons.warning_rounded,
   'emoji_events' => Icons.emoji_events_rounded,
   'lock' => Icons.lock_rounded,
+  'event_repeat' => Icons.event_repeat_rounded,
   'notifications_active' => Icons.notifications_active_rounded,
   _ => Icons.star_rounded,
 };
@@ -261,6 +262,7 @@ Widget _illustration(TutorialStep step) => switch (step.id) {
   'coach' => const _CoachDemo(),
   'managebac' => const _ManageBacDemo(),
   'calendar' => const _CalendarDemo(),
+  'calendar_import' => const _CalendarImportDemo(),
   'crunch' => const _CrunchDemo(),
   'reminders' => const _RemindersDemo(),
   'achievements' => const _AchievementsDemo(),
@@ -613,6 +615,73 @@ class _CalendarDemo extends StatelessWidget {
         row('TOK exhibition', 'TOK · Mon', EventCategory.tok, true),
         row('EE first draft', 'Extended Essay · Wed', EventCategory.extendedEssay, false),
         row('Math paper 2', 'Exam · Fri', EventCategory.exam, false),
+      ],
+    );
+  }
+}
+
+class _CalendarImportDemo extends StatelessWidget {
+  const _CalendarImportDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    Widget row(String title, String sub, EventCategory c) => Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: ChunkyCard(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        child: Row(
+          children: [
+            Container(
+              width: 6,
+              height: 34,
+              decoration: BoxDecoration(
+                color: categoryColor(c),
+                borderRadius: BorderRadius.circular(3),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontWeight: FontWeight.w800)),
+                  Text(sub, style: const TextStyle(color: Palette.muted, fontSize: 12)),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: Palette.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Palette.line, width: 2),
+              ),
+              child: const Icon(Icons.calendar_today_rounded, color: Palette.red, size: 32),
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Icon(Icons.arrow_forward_rounded, color: Palette.gray, size: 30),
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: Image.asset('assets/icon/app_icon.png', width: 64, height: 64),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        row('Math AA paper 2', 'Exam · Tue · School', EventCategory.exam),
+        row('Chem lab report due', 'IA · Thu · School', EventCategory.internalAssessment),
       ],
     );
   }

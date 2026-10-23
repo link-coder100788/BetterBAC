@@ -4,11 +4,15 @@ PODS:
     - FlutterMacOS
   - betterbac_core (0.0.1):
     - FlutterMacOS
+  - device_calendar_import (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - FlutterMacOS (1.0.0)
 
 DEPENDENCIES:
   - apple_coach (from `Flutter/ephemeral/.symlinks/plugins/apple_coach/darwin`)
   - betterbac_core (from `Flutter/ephemeral/.symlinks/plugins/betterbac_core/macos`)
+  - device_calendar_import (from `Flutter/ephemeral/.symlinks/plugins/device_calendar_import/darwin`)
   - FlutterMacOS (from `Flutter/ephemeral`)
 
 EXTERNAL SOURCES:
@@ -16,12 +20,15 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/apple_coach/darwin
   betterbac_core:
     :path: Flutter/ephemeral/.symlinks/plugins/betterbac_core/macos
+  device_calendar_import:
+    :path: Flutter/ephemeral/.symlinks/plugins/device_calendar_import/darwin
   FlutterMacOS:
     :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
   apple_coach: e1e2121bf32b852983648fca52b656d69ccacd0e
   betterbac_core: c11586cf50d9923a4becd8676b76521008ae2377
+  device_calendar_import: fdb381f5f118209705a821a3d6e423014373d95a
   FlutterMacOS: c232990155153907050900a2e175c7773903ba4e
 
 PODFILE CHECKSUM: 1e95c36afbfd1cb6423ceca4de7a8e1b256fb6ac

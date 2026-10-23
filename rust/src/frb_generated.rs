@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -869583066;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -59115801;
 
 // Section: executor
 
@@ -47,6 +47,40 @@ flutter_rust_bridge::frb_generated_default_handler!();
 
 // Section: wire_funcs
 
+fn wire__crate__api__device_calendar__clear_device_events_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "clear_device_events",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::device_calendar::clear_device_events()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__coach__coach_min_words_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -756,6 +790,68 @@ fn wire__crate__api__dev__dev_table_impl(
         },
     )
 }
+fn wire__crate__api__device_calendar__device_import_summary_changed_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "device_import_summary_changed",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_that =
+                <crate::api::device_calendar::DeviceImportSummary>::sse_decode(&mut deserializer);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(
+                    crate::api::device_calendar::DeviceImportSummary::changed(&api_that),
+                )?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
+fn wire__crate__api__device_calendar__device_import_window_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "device_import_window",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::device_calendar::device_import_window())?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__types__event_category_label_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -925,6 +1021,40 @@ fn wire__crate__api__app__get_dashboard_impl(
         },
     )
 }
+fn wire__crate__api__device_calendar__get_device_calendar_prefs_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_device_calendar_prefs",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::device_calendar::get_device_calendar_prefs()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__cas__get_experience_impl(
     port_: flutter_rust_bridge::for_generated::MessagePort,
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
@@ -1056,6 +1186,46 @@ fn wire__crate__api__settings__get_settings_impl(
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::settings::get_settings()?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__device_calendar__import_device_events_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "import_device_events",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_window =
+                <crate::api::device_calendar::ImportWindow>::sse_decode(&mut deserializer);
+            let api_events =
+                <Vec<crate::api::device_calendar::DeviceEventInput>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::device_calendar::import_device_events(
+                            api_window, api_events,
+                        )?;
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
@@ -1521,6 +1691,43 @@ fn wire__crate__api__cas__save_reflection_impl(
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::cas::save_reflection(api_id, api_draft)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "set_device_calendar_prefs",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_prefs =
+                <crate::api::device_calendar::DeviceCalendarPrefs>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::device_calendar::set_device_calendar_prefs(api_prefs)?;
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
@@ -2103,6 +2310,7 @@ impl SseDecode for crate::api::types::CalendarEvent {
         let mut var_endsAt = <Option<chrono::DateTime<chrono::Utc>>>::sse_decode(deserializer);
         let mut var_allDay = <bool>::sse_decode(deserializer);
         let mut var_completed = <bool>::sse_decode(deserializer);
+        let mut var_calendarName = <Option<String>>::sse_decode(deserializer);
         return crate::api::types::CalendarEvent {
             id: var_id,
             source: var_source,
@@ -2114,6 +2322,7 @@ impl SseDecode for crate::api::types::CalendarEvent {
             ends_at: var_endsAt,
             all_day: var_allDay,
             completed: var_completed,
+            calendar_name: var_calendarName,
         };
     }
 }
@@ -2298,6 +2507,56 @@ impl SseDecode for crate::api::dev::DevTable {
     }
 }
 
+impl SseDecode for crate::api::device_calendar::DeviceCalendarPrefs {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_enabled = <bool>::sse_decode(deserializer);
+        let mut var_calendarIds = <Vec<String>>::sse_decode(deserializer);
+        return crate::api::device_calendar::DeviceCalendarPrefs {
+            enabled: var_enabled,
+            calendar_ids: var_calendarIds,
+        };
+    }
+}
+
+impl SseDecode for crate::api::device_calendar::DeviceEventInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_externalId = <String>::sse_decode(deserializer);
+        let mut var_calendarId = <String>::sse_decode(deserializer);
+        let mut var_calendarName = <String>::sse_decode(deserializer);
+        let mut var_title = <String>::sse_decode(deserializer);
+        let mut var_notes = <String>::sse_decode(deserializer);
+        let mut var_startsAt = <chrono::DateTime<chrono::Utc>>::sse_decode(deserializer);
+        let mut var_endsAt = <Option<chrono::DateTime<chrono::Utc>>>::sse_decode(deserializer);
+        let mut var_allDay = <bool>::sse_decode(deserializer);
+        return crate::api::device_calendar::DeviceEventInput {
+            external_id: var_externalId,
+            calendar_id: var_calendarId,
+            calendar_name: var_calendarName,
+            title: var_title,
+            notes: var_notes,
+            starts_at: var_startsAt,
+            ends_at: var_endsAt,
+            all_day: var_allDay,
+        };
+    }
+}
+
+impl SseDecode for crate::api::device_calendar::DeviceImportSummary {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_added = <u32>::sse_decode(deserializer);
+        let mut var_updated = <u32>::sse_decode(deserializer);
+        let mut var_removed = <u32>::sse_decode(deserializer);
+        return crate::api::device_calendar::DeviceImportSummary {
+            added: var_added,
+            updated: var_updated,
+            removed: var_removed,
+        };
+    }
+}
+
 impl SseDecode for crate::api::types::EventCategory {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2404,6 +2663,18 @@ impl SseDecode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         deserializer.cursor.read_i64::<NativeEndian>().unwrap()
+    }
+}
+
+impl SseDecode for crate::api::device_calendar::ImportWindow {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_start = <chrono::DateTime<chrono::Utc>>::sse_decode(deserializer);
+        let mut var_end = <chrono::DateTime<chrono::Utc>>::sse_decode(deserializer);
+        return crate::api::device_calendar::ImportWindow {
+            start: var_start,
+            end: var_end,
+        };
     }
 }
 
@@ -2529,6 +2800,20 @@ impl SseDecode for Vec<crate::api::dev::DevRow> {
         let mut ans_ = Vec::with_capacity(len_ as usize);
         for idx_ in 0..len_ {
             ans_.push(<crate::api::dev::DevRow>::sse_decode(deserializer));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<crate::api::device_calendar::DeviceEventInput> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<crate::api::device_calendar::DeviceEventInput>::sse_decode(
+                deserializer,
+            ));
         }
         return ans_;
     }
@@ -3134,60 +3419,84 @@ fn pde_ffi_dispatcher_primary_impl(
 ) {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        3 => wire__crate__api__coach__coach_with_ai_impl(port, ptr, rust_vec_len, data_len),
-        4 => wire__crate__api__coach__coach_with_rules_impl(port, ptr, rust_vec_len, data_len),
-        6 => wire__crate__api__calendar__create_event_impl(port, ptr, rust_vec_len, data_len),
-        7 => wire__crate__api__cas__create_experience_impl(port, ptr, rust_vec_len, data_len),
-        8 => wire__crate__api__calendar__delete_event_impl(port, ptr, rust_vec_len, data_len),
-        9 => wire__crate__api__cas__delete_experience_impl(port, ptr, rust_vec_len, data_len),
-        10 => wire__crate__api__cas__delete_reflection_impl(port, ptr, rust_vec_len, data_len),
-        11 => wire__crate__api__dev__dev_add_xp_impl(port, ptr, rust_vec_len, data_len),
-        12 => wire__crate__api__dev__dev_clear_all_impl(port, ptr, rust_vec_len, data_len),
-        13 => wire__crate__api__dev__dev_db_overview_impl(port, ptr, rust_vec_len, data_len),
-        15 => wire__crate__api__dev__dev_query_impl(port, ptr, rust_vec_len, data_len),
-        16 => wire__crate__api__dev__dev_reset_onboarding_impl(port, ptr, rust_vec_len, data_len),
-        17 => wire__crate__api__dev__dev_reset_xp_impl(port, ptr, rust_vec_len, data_len),
-        18 => wire__crate__api__dev__dev_seed_sample_data_impl(port, ptr, rust_vec_len, data_len),
-        19 => wire__crate__api__dev__dev_set_streak_impl(port, ptr, rust_vec_len, data_len),
-        20 => wire__crate__api__dev__dev_set_tutorial_seen_impl(port, ptr, rust_vec_len, data_len),
-        21 => wire__crate__api__dev__dev_table_impl(port, ptr, rust_vec_len, data_len),
-        23 => wire__crate__api__calendar__events_between_impl(port, ptr, rust_vec_len, data_len),
-        24 => wire__crate__api__cas__export_reflection_impl(port, ptr, rust_vec_len, data_len),
-        25 => wire__crate__api__app__get_achievements_impl(port, ptr, rust_vec_len, data_len),
-        26 => wire__crate__api__app__get_dashboard_impl(port, ptr, rust_vec_len, data_len),
-        27 => wire__crate__api__cas__get_experience_impl(port, ptr, rust_vec_len, data_len),
-        28 => wire__crate__api__cas__get_reflection_impl(port, ptr, rust_vec_len, data_len),
-        29 => {
+        1 => wire__crate__api__device_calendar__clear_device_events_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        4 => wire__crate__api__coach__coach_with_ai_impl(port, ptr, rust_vec_len, data_len),
+        5 => wire__crate__api__coach__coach_with_rules_impl(port, ptr, rust_vec_len, data_len),
+        7 => wire__crate__api__calendar__create_event_impl(port, ptr, rust_vec_len, data_len),
+        8 => wire__crate__api__cas__create_experience_impl(port, ptr, rust_vec_len, data_len),
+        9 => wire__crate__api__calendar__delete_event_impl(port, ptr, rust_vec_len, data_len),
+        10 => wire__crate__api__cas__delete_experience_impl(port, ptr, rust_vec_len, data_len),
+        11 => wire__crate__api__cas__delete_reflection_impl(port, ptr, rust_vec_len, data_len),
+        12 => wire__crate__api__dev__dev_add_xp_impl(port, ptr, rust_vec_len, data_len),
+        13 => wire__crate__api__dev__dev_clear_all_impl(port, ptr, rust_vec_len, data_len),
+        14 => wire__crate__api__dev__dev_db_overview_impl(port, ptr, rust_vec_len, data_len),
+        16 => wire__crate__api__dev__dev_query_impl(port, ptr, rust_vec_len, data_len),
+        17 => wire__crate__api__dev__dev_reset_onboarding_impl(port, ptr, rust_vec_len, data_len),
+        18 => wire__crate__api__dev__dev_reset_xp_impl(port, ptr, rust_vec_len, data_len),
+        19 => wire__crate__api__dev__dev_seed_sample_data_impl(port, ptr, rust_vec_len, data_len),
+        20 => wire__crate__api__dev__dev_set_streak_impl(port, ptr, rust_vec_len, data_len),
+        21 => wire__crate__api__dev__dev_set_tutorial_seen_impl(port, ptr, rust_vec_len, data_len),
+        22 => wire__crate__api__dev__dev_table_impl(port, ptr, rust_vec_len, data_len),
+        26 => wire__crate__api__calendar__events_between_impl(port, ptr, rust_vec_len, data_len),
+        27 => wire__crate__api__cas__export_reflection_impl(port, ptr, rust_vec_len, data_len),
+        28 => wire__crate__api__app__get_achievements_impl(port, ptr, rust_vec_len, data_len),
+        29 => wire__crate__api__app__get_dashboard_impl(port, ptr, rust_vec_len, data_len),
+        30 => wire__crate__api__device_calendar__get_device_calendar_prefs_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        31 => wire__crate__api__cas__get_experience_impl(port, ptr, rust_vec_len, data_len),
+        32 => wire__crate__api__cas__get_reflection_impl(port, ptr, rust_vec_len, data_len),
+        33 => {
             wire__crate__api__reminders__get_reminder_prefs_impl(port, ptr, rust_vec_len, data_len)
         }
-        30 => wire__crate__api__settings__get_settings_impl(port, ptr, rust_vec_len, data_len),
-        31 => wire__crate__api__app__init_app_impl(port, ptr, rust_vec_len, data_len),
-        32 => wire__crate__api__app__init_core_impl(port, ptr, rust_vec_len, data_len),
-        36 => wire__crate__api__cas__list_experiences_impl(port, ptr, rust_vec_len, data_len),
-        37 => wire__crate__api__cas__list_reflections_impl(port, ptr, rust_vec_len, data_len),
-        39 => {
+        34 => wire__crate__api__settings__get_settings_impl(port, ptr, rust_vec_len, data_len),
+        35 => wire__crate__api__device_calendar__import_device_events_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        36 => wire__crate__api__app__init_app_impl(port, ptr, rust_vec_len, data_len),
+        37 => wire__crate__api__app__init_core_impl(port, ptr, rust_vec_len, data_len),
+        41 => wire__crate__api__cas__list_experiences_impl(port, ptr, rust_vec_len, data_len),
+        42 => wire__crate__api__cas__list_reflections_impl(port, ptr, rust_vec_len, data_len),
+        44 => {
             wire__crate__api__tutorial__mark_tutorial_seen_impl(port, ptr, rust_vec_len, data_len)
         }
-        40 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
-        42 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
-        43 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
-        44 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
-        45 => {
+        45 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
+        47 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
+        48 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
+        49 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
+        50 => wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        51 => {
             wire__crate__api__calendar__set_event_completed_impl(port, ptr, rust_vec_len, data_len)
         }
-        46 => {
+        52 => {
             wire__crate__api__reminders__set_reminder_prefs_impl(port, ptr, rust_vec_len, data_len)
         }
-        48 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
-        52 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
-        53 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
-        54 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
-        55 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
-        56 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
-        57 => {
+        54 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
+        58 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
+        60 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
+        62 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
+        63 => {
             wire__crate__api__web__web_snapshot_if_changed_impl(port, ptr, rust_vec_len, data_len)
         }
-        58 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3200,28 +3509,38 @@ fn pde_ffi_dispatcher_sync_impl(
 ) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
     // Codec=Pde (Serialization + dispatch), see doc to use other codecs
     match func_id {
-        1 => wire__crate__api__coach__coach_min_words_impl(ptr, rust_vec_len, data_len),
-        2 => wire__crate__api__coach__coach_prompt_impl(ptr, rust_vec_len, data_len),
-        5 => wire__crate__api__cas__count_words_impl(ptr, rust_vec_len, data_len),
-        14 => wire__crate__api__dev__dev_menu_enabled_impl(ptr, rust_vec_len, data_len),
-        22 => wire__crate__api__types__event_category_label_impl(ptr, rust_vec_len, data_len),
-        33 => {
+        2 => wire__crate__api__coach__coach_min_words_impl(ptr, rust_vec_len, data_len),
+        3 => wire__crate__api__coach__coach_prompt_impl(ptr, rust_vec_len, data_len),
+        6 => wire__crate__api__cas__count_words_impl(ptr, rust_vec_len, data_len),
+        15 => wire__crate__api__dev__dev_menu_enabled_impl(ptr, rust_vec_len, data_len),
+        23 => wire__crate__api__device_calendar__device_import_summary_changed_impl(
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        24 => wire__crate__api__device_calendar__device_import_window_impl(
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        25 => wire__crate__api__types__event_category_label_impl(ptr, rust_vec_len, data_len),
+        38 => {
             wire__crate__api__types__learning_outcome_description_impl(ptr, rust_vec_len, data_len)
         }
-        34 => wire__crate__api__types__learning_outcome_number_impl(ptr, rust_vec_len, data_len),
-        35 => {
+        39 => wire__crate__api__types__learning_outcome_number_impl(ptr, rust_vec_len, data_len),
+        40 => {
             wire__crate__api__types__learning_outcome_short_name_impl(ptr, rust_vec_len, data_len)
         }
-        38 => wire__crate__api__types__load_level_label_impl(ptr, rust_vec_len, data_len),
-        41 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
-        47 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
-        49 => {
+        43 => wire__crate__api__types__load_level_label_impl(ptr, rust_vec_len, data_len),
+        46 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
+        53 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
+        55 => {
             wire__crate__api__tutorial__tutorial_status_is_update_impl(ptr, rust_vec_len, data_len)
         }
-        50 => {
+        56 => {
             wire__crate__api__tutorial__tutorial_status_needs_tour_impl(ptr, rust_vec_len, data_len)
         }
-        51 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
+        57 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3303,6 +3622,7 @@ impl flutter_rust_bridge::IntoDart for crate::api::types::CalendarEvent {
             self.ends_at.into_into_dart().into_dart(),
             self.all_day.into_into_dart().into_dart(),
             self.completed.into_into_dart().into_dart(),
+            self.calendar_name.into_into_dart().into_dart(),
         ]
         .into_dart()
     }
@@ -3549,6 +3869,76 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::dev::DevTable> for crate::api
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::device_calendar::DeviceCalendarPrefs {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.enabled.into_into_dart().into_dart(),
+            self.calendar_ids.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::device_calendar::DeviceCalendarPrefs
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::device_calendar::DeviceCalendarPrefs>
+    for crate::api::device_calendar::DeviceCalendarPrefs
+{
+    fn into_into_dart(self) -> crate::api::device_calendar::DeviceCalendarPrefs {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::device_calendar::DeviceEventInput {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.external_id.into_into_dart().into_dart(),
+            self.calendar_id.into_into_dart().into_dart(),
+            self.calendar_name.into_into_dart().into_dart(),
+            self.title.into_into_dart().into_dart(),
+            self.notes.into_into_dart().into_dart(),
+            self.starts_at.into_into_dart().into_dart(),
+            self.ends_at.into_into_dart().into_dart(),
+            self.all_day.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::device_calendar::DeviceEventInput
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::device_calendar::DeviceEventInput>
+    for crate::api::device_calendar::DeviceEventInput
+{
+    fn into_into_dart(self) -> crate::api::device_calendar::DeviceEventInput {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::device_calendar::DeviceImportSummary {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.added.into_into_dart().into_dart(),
+            self.updated.into_into_dart().into_dart(),
+            self.removed.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::device_calendar::DeviceImportSummary
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::device_calendar::DeviceImportSummary>
+    for crate::api::device_calendar::DeviceImportSummary
+{
+    fn into_into_dart(self) -> crate::api::device_calendar::DeviceImportSummary {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::types::EventCategory {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -3664,6 +4054,27 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::types::ExperienceSaved>
     for crate::api::types::ExperienceSaved
 {
     fn into_into_dart(self) -> crate::api::types::ExperienceSaved {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::device_calendar::ImportWindow {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.start.into_into_dart().into_dart(),
+            self.end.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::device_calendar::ImportWindow
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::device_calendar::ImportWindow>
+    for crate::api::device_calendar::ImportWindow
+{
+    fn into_into_dart(self) -> crate::api::device_calendar::ImportWindow {
         self
     }
 }
@@ -4253,6 +4664,7 @@ impl SseEncode for crate::api::types::CalendarEvent {
         <Option<chrono::DateTime<chrono::Utc>>>::sse_encode(self.ends_at, serializer);
         <bool>::sse_encode(self.all_day, serializer);
         <bool>::sse_encode(self.completed, serializer);
+        <Option<String>>::sse_encode(self.calendar_name, serializer);
     }
 }
 
@@ -4376,6 +4788,37 @@ impl SseEncode for crate::api::dev::DevTable {
     }
 }
 
+impl SseEncode for crate::api::device_calendar::DeviceCalendarPrefs {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.enabled, serializer);
+        <Vec<String>>::sse_encode(self.calendar_ids, serializer);
+    }
+}
+
+impl SseEncode for crate::api::device_calendar::DeviceEventInput {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.external_id, serializer);
+        <String>::sse_encode(self.calendar_id, serializer);
+        <String>::sse_encode(self.calendar_name, serializer);
+        <String>::sse_encode(self.title, serializer);
+        <String>::sse_encode(self.notes, serializer);
+        <chrono::DateTime<chrono::Utc>>::sse_encode(self.starts_at, serializer);
+        <Option<chrono::DateTime<chrono::Utc>>>::sse_encode(self.ends_at, serializer);
+        <bool>::sse_encode(self.all_day, serializer);
+    }
+}
+
+impl SseEncode for crate::api::device_calendar::DeviceImportSummary {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <u32>::sse_encode(self.added, serializer);
+        <u32>::sse_encode(self.updated, serializer);
+        <u32>::sse_encode(self.removed, serializer);
+    }
+}
+
 impl SseEncode for crate::api::types::EventCategory {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -4455,6 +4898,14 @@ impl SseEncode for i64 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
         serializer.cursor.write_i64::<NativeEndian>(self).unwrap();
+    }
+}
+
+impl SseEncode for crate::api::device_calendar::ImportWindow {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <chrono::DateTime<chrono::Utc>>::sse_encode(self.start, serializer);
+        <chrono::DateTime<chrono::Utc>>::sse_encode(self.end, serializer);
     }
 }
 
@@ -4564,6 +5015,16 @@ impl SseEncode for Vec<crate::api::dev::DevRow> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::dev::DevRow>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<crate::api::device_calendar::DeviceEventInput> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <crate::api::device_calendar::DeviceEventInput>::sse_encode(item, serializer);
         }
     }
 }

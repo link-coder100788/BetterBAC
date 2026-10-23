@@ -1,0 +1,25 @@
+name: device_calendar_import
+description: Reads calendars and events from the device for BetterBAC's calendar import (EventKit on iOS/macOS, CalendarContract on Android).
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.13.2
+  flutter: ">=3.27.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.betterbac.device_calendar_import
+        pluginClass: DeviceCalendarImportPlugin
+      ios:
+        pluginClass: DeviceCalendarImportPlugin
+        sharedDarwinSource: true
+      macos:
+        pluginClass: DeviceCalendarImportPlugin
+        sharedDarwinSource: true

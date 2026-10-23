@@ -75,4 +75,13 @@ impl Store {
     pub fn set_bool_setting(&self, key: &str, value: bool, now: DateTime<Utc>) -> Result<()> {
         self.put_setting(key, Some(if value { "1" } else { "0" }), now)
     }
+
+    /// A free-form string preference, if set.
+    pub fn string_setting(&self, key: &str) -> Result<Option<String>> {
+        self.get_setting(key)
+    }
+
+    pub fn set_string_setting(&self, key: &str, value: &str, now: DateTime<Utc>) -> Result<()> {
+        self.put_setting(key, Some(value), now)
+    }
 }

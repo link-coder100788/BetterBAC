@@ -10,6 +10,7 @@ import 'package:betterbac/src/rust/api/calendar.dart';
 import 'package:betterbac/src/rust/api/cas.dart';
 import 'package:betterbac/src/rust/api/coach.dart';
 import 'package:betterbac/src/rust/api/dev.dart';
+import 'package:betterbac/src/rust/api/device_calendar.dart';
 import 'package:betterbac/src/rust/api/reminders.dart';
 import 'package:betterbac/src/rust/api/settings.dart';
 import 'package:betterbac/src/rust/api/tutorial.dart';
@@ -204,6 +205,52 @@ void main() {
     );
   });
 
+  test('Device calendar import through the bridge', () async {
+    expect((await getDeviceCalendarPrefs()).enabled, isFalse);
+    await setDeviceCalendarPrefs(
+      prefs: const DeviceCalendarPrefs(enabled: true, calendarIds: ['cal1']),
+    );
+    final window = deviceImportWindow();
+    final day = DateTime.now().add(const Duration(days: 3));
+    DeviceEventInput ev(String id, String title) => DeviceEventInput(
+      externalId: id,
+      calendarId: 'cal1',
+      calendarName: 'School',
+      title: title,
+      notes: '',
+      startsAt: DateTime(day.year, day.month, day.day, 10).toUtc(),
+      endsAt: DateTime(day.year, day.month, day.day, 11).toUtc(),
+      allDay: false,
+    );
+
+    final first = await importDeviceEvents(
+      window: window,
+      events: [ev('x1', 'Biology mock exam'), ev('x2', 'Dentist')],
+    );
+    expect(first.added, 2);
+
+    final events = (await eventsBetween(start: window.start, end: window.end))
+        .where((e) => e.source == 'device')
+        .toList();
+    expect(events, hasLength(2));
+    expect(events.every((e) => !e.editable && e.calendarName == 'School'), isTrue);
+    expect(
+      events.firstWhere((e) => e.title == 'Biology mock exam').category,
+      EventCategory.exam,
+    );
+
+    // Deleted in the calendar → removed here.
+    final second = await importDeviceEvents(window: window, events: [ev('x1', 'Biology mock exam')]);
+    expect(second.removed, 1);
+
+    // Turning import off clears everything imported.
+    await setDeviceCalendarPrefs(
+      prefs: const DeviceCalendarPrefs(enabled: false, calendarIds: []),
+    );
+    final after = await eventsBetween(start: window.start, end: window.end);
+    expect(after.where((e) => e.source == 'device'), isEmpty);
+  });
+
   testWidgets('Developer menu: seed, inspect, query, clear', (tester) async {
     expect(devMenuEnabled(), isTrue);
 
@@ -213,7 +260,7 @@ void main() {
     expect(d.crunch, isNotNull);
 
     final db = await devDbOverview();
-    expect(db.schemaVersion, 2);
+    expect(db.schemaVersion, 3);
     final reflections = db.tables.firstWhere((t) => t.name == 'reflections');
     expect(reflections.rows.toInt(), greaterThanOrEqualTo(4));
 

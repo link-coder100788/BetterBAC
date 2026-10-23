@@ -154,6 +154,7 @@ mod tests {
             ends_at: None,
             all_day: false,
             completed,
+            calendar_name: None,
         }
     }
 

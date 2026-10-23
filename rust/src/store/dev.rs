@@ -9,7 +9,14 @@ use super::{from_millis, Store};
 use crate::api::dev::{DbOverview, DevRow, DevTable, TableInfo};
 
 /// Tables holding user data, wiped by "clear all progress".
-const DATA_TABLES: &[&str] = &["experiences", "reflections", "events", "xp_log", "settings"];
+const DATA_TABLES: &[&str] = &[
+    "experiences",
+    "reflections",
+    "events",
+    "device_events",
+    "xp_log",
+    "settings",
+];
 
 /// Max rows any dev query returns, so a careless `SELECT *` can't hang the UI.
 const MAX_ROWS: usize = 500;
@@ -174,7 +181,7 @@ mod tests {
         assert_eq!((settings.rows, settings.deleted_rows), (1, None));
         let events = o.tables.iter().find(|t| t.name == "events").unwrap();
         assert_eq!(events.deleted_rows, Some(0));
-        assert_eq!(o.schema_version, 2);
+        assert_eq!(o.schema_version, 3);
 
         let t = store.dev_table("settings", 0, 50).unwrap();
         assert_eq!(t.columns, ["key", "value", "updated_at"]);

@@ -11,6 +11,7 @@ import 'api/calendar.dart';
 import 'api/cas.dart';
 import 'api/coach.dart';
 import 'api/dev.dart';
+import 'api/device_calendar.dart';
 import 'api/reminders.dart';
 import 'api/settings.dart';
 import 'api/tutorial.dart';
@@ -63,10 +64,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrunchWarning dco_decode_box_autoadd_crunch_warning(dynamic raw);
 
   @protected
+  DeviceCalendarPrefs dco_decode_box_autoadd_device_calendar_prefs(dynamic raw);
+
+  @protected
+  DeviceImportSummary dco_decode_box_autoadd_device_import_summary(dynamic raw);
+
+  @protected
   EventDraft dco_decode_box_autoadd_event_draft(dynamic raw);
 
   @protected
   ExperienceDraft dco_decode_box_autoadd_experience_draft(dynamic raw);
+
+  @protected
+  ImportWindow dco_decode_box_autoadd_import_window(dynamic raw);
 
   @protected
   LearningOutcome dco_decode_box_autoadd_learning_outcome(dynamic raw);
@@ -126,6 +136,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DevTable dco_decode_dev_table(dynamic raw);
 
   @protected
+  DeviceCalendarPrefs dco_decode_device_calendar_prefs(dynamic raw);
+
+  @protected
+  DeviceEventInput dco_decode_device_event_input(dynamic raw);
+
+  @protected
+  DeviceImportSummary dco_decode_device_import_summary(dynamic raw);
+
+  @protected
   EventCategory dco_decode_event_category(dynamic raw);
 
   @protected
@@ -145,6 +164,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 dco_decode_i_64(dynamic raw);
+
+  @protected
+  ImportWindow dco_decode_import_window(dynamic raw);
 
   @protected
   LearningOutcome dco_decode_learning_outcome(dynamic raw);
@@ -175,6 +197,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DevRow> dco_decode_list_dev_row(dynamic raw);
+
+  @protected
+  List<DeviceEventInput> dco_decode_list_device_event_input(dynamic raw);
 
   @protected
   List<EventCategory> dco_decode_list_event_category(dynamic raw);
@@ -344,10 +369,25 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  DeviceCalendarPrefs sse_decode_box_autoadd_device_calendar_prefs(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  DeviceImportSummary sse_decode_box_autoadd_device_import_summary(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   EventDraft sse_decode_box_autoadd_event_draft(SseDeserializer deserializer);
 
   @protected
   ExperienceDraft sse_decode_box_autoadd_experience_draft(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  ImportWindow sse_decode_box_autoadd_import_window(
     SseDeserializer deserializer,
   );
 
@@ -419,6 +459,19 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   DevTable sse_decode_dev_table(SseDeserializer deserializer);
 
   @protected
+  DeviceCalendarPrefs sse_decode_device_calendar_prefs(
+    SseDeserializer deserializer,
+  );
+
+  @protected
+  DeviceEventInput sse_decode_device_event_input(SseDeserializer deserializer);
+
+  @protected
+  DeviceImportSummary sse_decode_device_import_summary(
+    SseDeserializer deserializer,
+  );
+
+  @protected
   EventCategory sse_decode_event_category(SseDeserializer deserializer);
 
   @protected
@@ -438,6 +491,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   PlatformInt64 sse_decode_i_64(SseDeserializer deserializer);
+
+  @protected
+  ImportWindow sse_decode_import_window(SseDeserializer deserializer);
 
   @protected
   LearningOutcome sse_decode_learning_outcome(SseDeserializer deserializer);
@@ -470,6 +526,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<DevRow> sse_decode_list_dev_row(SseDeserializer deserializer);
+
+  @protected
+  List<DeviceEventInput> sse_decode_list_device_event_input(
+    SseDeserializer deserializer,
+  );
 
   @protected
   List<EventCategory> sse_decode_list_event_category(
@@ -667,6 +728,18 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_box_autoadd_device_calendar_prefs(
+    DeviceCalendarPrefs self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_device_import_summary(
+    DeviceImportSummary self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_box_autoadd_event_draft(
     EventDraft self,
     SseSerializer serializer,
@@ -675,6 +748,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   @protected
   void sse_encode_box_autoadd_experience_draft(
     ExperienceDraft self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_box_autoadd_import_window(
+    ImportWindow self,
     SseSerializer serializer,
   );
 
@@ -751,6 +830,24 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_dev_table(DevTable self, SseSerializer serializer);
 
   @protected
+  void sse_encode_device_calendar_prefs(
+    DeviceCalendarPrefs self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_device_event_input(
+    DeviceEventInput self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_device_import_summary(
+    DeviceImportSummary self,
+    SseSerializer serializer,
+  );
+
+  @protected
   void sse_encode_event_category(EventCategory self, SseSerializer serializer);
 
   @protected
@@ -776,6 +873,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_i_64(PlatformInt64 self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_import_window(ImportWindow self, SseSerializer serializer);
 
   @protected
   void sse_encode_learning_outcome(
@@ -821,6 +921,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_list_dev_row(List<DevRow> self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_list_device_event_input(
+    List<DeviceEventInput> self,
+    SseSerializer serializer,
+  );
 
   @protected
   void sse_encode_list_event_category(

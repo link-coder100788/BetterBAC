@@ -224,6 +224,8 @@ pub struct CalendarEvent {
     pub ends_at: Option<DateTime<Utc>>,
     pub all_day: bool,
     pub completed: bool,
+    /// For imported events: the calendar it came from (e.g. "Work").
+    pub calendar_name: Option<String>,
 }
 
 /// User-editable fields of a manual [`CalendarEvent`].

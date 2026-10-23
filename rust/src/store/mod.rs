@@ -21,6 +21,7 @@
 //!   devices merges into one.
 
 mod dev;
+mod device_events;
 mod events;
 mod experiences;
 mod reflections;
@@ -213,6 +214,28 @@ const MIGRATIONS: &[&str] = &[
     CREATE INDEX reflections_updated_at ON reflections(updated_at);
     CREATE INDEX events_updated_at      ON events(updated_at);
     CREATE INDEX xp_log_updated_at      ON xp_log(updated_at);
+"#,
+// 3: events imported from the device's calendars (Apple / Google Calendar).
+// A per-device cache (each device imports its own calendars), but it still
+// follows the sync conventions above.
+r#"
+    CREATE TABLE device_events (
+        id            TEXT    PRIMARY KEY,
+        external_id   TEXT    NOT NULL UNIQUE, -- the calendar's id for this occurrence
+        calendar_id   TEXT    NOT NULL,
+        calendar_name TEXT    NOT NULL DEFAULT '',
+        title         TEXT    NOT NULL,
+        notes         TEXT    NOT NULL DEFAULT '',
+        category      TEXT    NOT NULL,
+        starts_at     INTEGER NOT NULL,
+        ends_at       INTEGER,
+        all_day       INTEGER NOT NULL DEFAULT 0,
+        created_at    INTEGER NOT NULL,
+        updated_at    INTEGER NOT NULL,
+        deleted_at    INTEGER
+    );
+    CREATE INDEX device_events_starts_at  ON device_events(starts_at);
+    CREATE INDEX device_events_updated_at ON device_events(updated_at);
 "#,
 ];
 

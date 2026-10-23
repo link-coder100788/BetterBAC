@@ -71,6 +71,9 @@ class CalendarEvent {
   final bool allDay;
   final bool completed;
 
+  /// For imported events: the calendar it came from (e.g. "Work").
+  final String? calendarName;
+
   const CalendarEvent({
     required this.id,
     required this.source,
@@ -82,6 +85,7 @@ class CalendarEvent {
     this.endsAt,
     required this.allDay,
     required this.completed,
+    this.calendarName,
   });
 
   @override
@@ -95,7 +99,8 @@ class CalendarEvent {
       startsAt.hashCode ^
       endsAt.hashCode ^
       allDay.hashCode ^
-      completed.hashCode;
+      completed.hashCode ^
+      calendarName.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -111,7 +116,8 @@ class CalendarEvent {
           startsAt == other.startsAt &&
           endsAt == other.endsAt &&
           allDay == other.allDay &&
-          completed == other.completed;
+          completed == other.completed &&
+          calendarName == other.calendarName;
 }
 
 class CrunchWarning {

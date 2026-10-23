@@ -306,7 +306,8 @@ mod engine {
     struct DeadlineReminders;
     impl ScheduleRule for DeadlineReminders {
         fn plan(&self, ctx: &Ctx, p: &mut Planner) {
-            for e in &ctx.upcoming {
+            // Imported events already get reminders from their own calendar app.
+            for e in ctx.upcoming.iter().filter(|e| e.editable) {
                 let day = local_date(e.starts_at);
                 let what = e.category.label();
                 let when = if e.all_day {
@@ -442,6 +443,7 @@ mod engine {
                 ends_at: None,
                 all_day: false,
                 completed: false,
+                calendar_name: None,
             });
             c.crunch = Some(CrunchWarning {
                 week_start: local_midnight(NaiveDate::from_ymd_opt(2026, 11, 2).unwrap()),
@@ -481,6 +483,7 @@ mod engine {
                     ends_at: None,
                     all_day: false,
                     completed: false,
+                    calendar_name: None,
                 });
             }
             assert_eq!(build(&c).notifications.len(), MAX_NOTIFICATIONS);

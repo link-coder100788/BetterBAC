@@ -1,19 +1,25 @@
 //! Calendar aggregation over pluggable event sources.
 //!
-//! Today the only source is [`ManualProvider`] (events the user creates in
-//! the app). A future ManageBAC iCal feed, Google Calendar, etc. would each
-//! be another [`EventProvider`] registered in [`CalendarService::new`]; the
-//! UI never needs to know where an event came from beyond
-//! `CalendarEvent::{source, editable}`.
+//! Sources:
+//! - [`ManualProvider`]: events the user creates in the app.
+//! - [`DeviceCalendarProvider`]: events imported from the device's calendars
+//!   (Apple Calendar on iPhone and Mac, Google Calendar on Android). The
+//!   native side reads them and hands them to `api::device_calendar`, which
+//!   caches them in the store; this provider serves that cache.
+//!
+//! A future ManageBAC iCal feed would be another [`EventProvider`] registered
+//! in [`CalendarService::new`]. The UI never needs to know where an event came
+//! from beyond `CalendarEvent::{source, editable, calendar_name}`.
 
 use anyhow::Result;
 use chrono::{DateTime, Datelike, Duration, Local, NaiveDate, TimeZone, Utc};
 
-use crate::api::types::{CalendarEvent, DaySummary, MonthOverview, WorkloadOutlook};
+use crate::api::types::{CalendarEvent, DaySummary, EventCategory, MonthOverview, WorkloadOutlook};
 use crate::store::Store;
 use crate::workload;
 
 pub const MANUAL_SOURCE: &str = "manual";
+pub const DEVICE_SOURCE: &str = "device";
 
 /// A source of calendar events.
 ///
@@ -57,6 +63,52 @@ impl EventProvider for ManualProvider {
     }
 }
 
+/// Events imported from the device's calendars (read-only in BetterBAC).
+pub struct DeviceCalendarProvider;
+
+impl EventProvider for DeviceCalendarProvider {
+    fn source_id(&self) -> &'static str {
+        DEVICE_SOURCE
+    }
+
+    fn events_between(
+        &self,
+        store: &Store,
+        start: DateTime<Utc>,
+        end: DateTime<Utc>,
+    ) -> Result<Vec<CalendarEvent>> {
+        store.device_events_between(start, end)
+    }
+}
+
+/// Best guess at an IB category from an imported event's title, so imported
+/// exams and deadlines count towards crunch weeks.
+pub fn guess_category(title: &str) -> EventCategory {
+    let lower = title.to_lowercase();
+    let words: Vec<&str> = lower
+        .split(|c: char| !c.is_alphanumeric())
+        .filter(|w| !w.is_empty())
+        .collect();
+    let has_word = |w: &[&str]| words.iter().any(|x| w.contains(x));
+    let has = |p: &[&str]| p.iter().any(|x| lower.contains(x));
+
+    if has(&["extended essay"]) || has_word(&["ee"]) {
+        EventCategory::ExtendedEssay
+    } else if has(&["theory of knowledge"]) || has_word(&["tok"]) {
+        EventCategory::Tok
+    } else if has(&["internal assessment", "lab report"]) || has_word(&["ia", "ias"]) {
+        EventCategory::InternalAssessment
+    } else if has_word(&["exam", "exams", "mock", "mocks", "test", "quiz", "paper"]) {
+        EventCategory::Exam
+    } else if has_word(&["cas", "volunteer", "volunteering"]) {
+        EventCategory::Cas
+    } else if has_word(&["homework", "hw", "assignment", "due"]) {
+        EventCategory::Homework
+    } else {
+        EventCategory::Other
+    }
+}
+
 pub struct CalendarService {
     providers: Vec<Box<dyn EventProvider>>,
 }
@@ -69,7 +121,7 @@ impl Default for CalendarService {
 
 impl CalendarService {
     pub fn new() -> Self {
-        Self::with_providers(vec![Box::new(ManualProvider)])
+        Self::with_providers(vec![Box::new(ManualProvider), Box::new(DeviceCalendarProvider)])
     }
 
     pub fn with_providers(providers: Vec<Box<dyn EventProvider>>) -> Self {
@@ -209,6 +261,26 @@ mod tests {
             starts_at: start,
             ends_at: (len_days > 0).then(|| start + Duration::days(len_days)),
             all_day: false,
+        }
+    }
+
+    #[test]
+    fn guesses_categories() {
+        use EventCategory::*;
+        for (title, want) in [
+            ("Math AA paper 2", Exam),
+            ("Bio mock exam", Exam),
+            ("EE draft due", ExtendedEssay),
+            ("Extended Essay meeting", ExtendedEssay),
+            ("TOK exhibition", Tok),
+            ("Physics IA final", InternalAssessment),
+            ("Chem lab report", InternalAssessment),
+            ("CAS beach cleanup", Cas),
+            ("History homework", Homework),
+            ("Dentist", Other),
+            ("Meet Lee", Other), // "ee" only as a whole word
+        ] {
+            assert_eq!(guess_category(title), want, "{title}");
         }
     }
 

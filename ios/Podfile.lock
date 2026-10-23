@@ -4,6 +4,9 @@ PODS:
     - FlutterMacOS
   - betterbac_core (0.0.1):
     - Flutter
+  - device_calendar_import (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - Flutter (1.0.0)
   - live_activity (0.0.1):
     - Flutter
@@ -11,6 +14,7 @@ PODS:
 DEPENDENCIES:
   - apple_coach (from `.symlinks/plugins/apple_coach/darwin`)
   - betterbac_core (from `.symlinks/plugins/betterbac_core/ios`)
+  - device_calendar_import (from `.symlinks/plugins/device_calendar_import/darwin`)
   - Flutter (from `Flutter`)
   - live_activity (from `.symlinks/plugins/live_activity/ios`)
 
@@ -19,6 +23,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/apple_coach/darwin"
   betterbac_core:
     :path: ".symlinks/plugins/betterbac_core/ios"
+  device_calendar_import:
+    :path: ".symlinks/plugins/device_calendar_import/darwin"
   Flutter:
     :path: Flutter
   live_activity:
@@ -27,6 +33,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   apple_coach: e1e2121bf32b852983648fca52b656d69ccacd0e
   betterbac_core: cf98929c00589f99191c0a7049a621e3e983e3c3
+  device_calendar_import: fdb381f5f118209705a821a3d6e423014373d95a
   Flutter: 71a624a5bc0c04062bf19101d501e466baf2fb47
   live_activity: 9a8fec3563017ac6e3a43884107a5f46f000e85e
 

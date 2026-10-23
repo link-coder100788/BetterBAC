@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../device_calendar.dart';
 import '../reminders.dart';
 import '../theme.dart';
 import 'calendar_screen.dart';
@@ -38,7 +39,10 @@ class _ShellState extends State<Shell> {
     super.initState();
     // Onboarding is done by the time the shell shows, so this is a good
     // moment for the notification permission prompt.
-    WidgetsBinding.instance.addPostFrameCallback((_) => Reminders.start());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Reminders.start();
+      DeviceCalendar.start();
+    });
   }
 
   void _select(int i) => setState(() => _index = i);
