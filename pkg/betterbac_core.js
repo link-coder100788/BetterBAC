@@ -491,18 +491,18 @@ let wasm_bindgen = (function(exports) {
                 return ret;
             },
             __wbindgen_cast_0000000000000001: function(arg0, arg1) {
-                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Event")], shim_idx: 915, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
-                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___web_sys_77ed926f59a0b958___features__gen_Event__Event______true_);
+                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("Event")], shim_idx: 910, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___web_sys_3ef5076cbfb5d3c1___features__gen_Event__Event______true_);
                 return ret;
             },
             __wbindgen_cast_0000000000000002: function(arg0, arg1) {
-                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("MessageEvent")], shim_idx: 940, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
-                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___wasm_bindgen_b7f5240d1fb588e6___JsValue______true_);
+                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [NamedExternref("MessageEvent")], shim_idx: 935, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___wasm_bindgen_f01f339a4e1a972f___JsValue______true_);
                 return ret;
             },
             __wbindgen_cast_0000000000000003: function(arg0, arg1) {
-                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [], shim_idx: 917, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
-                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke_______true_);
+                // Cast intrinsic for `Closure(Closure { owned: true, function: Function { arguments: [], shim_idx: 912, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+                const ret = makeMutClosure(arg0, arg1, wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke_______true_);
                 return ret;
             },
             __wbindgen_cast_0000000000000004: function(arg0) {
@@ -532,16 +532,16 @@ let wasm_bindgen = (function(exports) {
         };
     }
 
-    function wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke_______true_(arg0, arg1) {
-        wasm.wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke_______true_(arg0, arg1);
+    function wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke_______true_(arg0, arg1) {
+        wasm.wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke_______true_(arg0, arg1);
     }
 
-    function wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___web_sys_77ed926f59a0b958___features__gen_Event__Event______true_(arg0, arg1, arg2) {
-        wasm.wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___web_sys_77ed926f59a0b958___features__gen_Event__Event______true_(arg0, arg1, arg2);
+    function wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___web_sys_3ef5076cbfb5d3c1___features__gen_Event__Event______true_(arg0, arg1, arg2) {
+        wasm.wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___web_sys_3ef5076cbfb5d3c1___features__gen_Event__Event______true_(arg0, arg1, arg2);
     }
 
-    function wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___wasm_bindgen_b7f5240d1fb588e6___JsValue______true_(arg0, arg1, arg2) {
-        wasm.wasm_bindgen_b7f5240d1fb588e6___convert__closures_____invoke___wasm_bindgen_b7f5240d1fb588e6___JsValue______true_(arg0, arg1, arg2);
+    function wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___wasm_bindgen_f01f339a4e1a972f___JsValue______true_(arg0, arg1, arg2) {
+        wasm.wasm_bindgen_f01f339a4e1a972f___convert__closures_____invoke___wasm_bindgen_f01f339a4e1a972f___JsValue______true_(arg0, arg1, arg2);
     }
 
     const WorkerPoolFinalization = (typeof FinalizationRegistry === 'undefined')
