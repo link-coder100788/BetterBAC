@@ -17,7 +17,7 @@ use crate::state::{self, with_core};
 use crate::store::{new_id, XpEntry};
 
 /// Compiled-in switch for the developer menu.
-const DEV_MENU: bool = true;
+const DEV_MENU: bool = false;
 
 #[derive(Debug, Clone)]
 pub struct TableInfo {

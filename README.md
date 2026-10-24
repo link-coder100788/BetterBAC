@@ -10,8 +10,8 @@ before their workload becomes overwhelming.
 Built with Flutter and Rust for iOS, Android, macOS, Windows and the web.
 
 **▶ Try the demo in your browser: https://link-coder100788.github.io/BetterBAC/**
-<sub>No sign-up. Your data stays in your own browser. Tip: Profile → Developer
-menu → *Seed sample data* fills the app with a realistic example student.</sub>
+<sub>No sign-up. Your data stays in your own browser. A short tour walks you
+through every feature; then add an experience, write a reflection and try the coach.</sub>
 
 <table>
   <tr>
