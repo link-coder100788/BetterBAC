@@ -1,0 +1,11 @@
+# candle's matrix maths (gemm) has hand-written ARM half-precision kernels
+# that need the FP16 extension to assemble. gemm only runs them after a runtime
+# CPU check, so older chips stay safe. This file covers cargo runs from rust/
+# (tests, checks). App builds get the flag from cargokit (rust_builder/cargokit/
+# build_tool/lib/src/builder.dart for iOS, android_environment.dart for Android),
+# because cargo runs from elsewhere there and Android overrides rustflags.
+[target.aarch64-apple-ios]
+rustflags = ["-C", "target-feature=+fp16"]
+
+[target.aarch64-apple-ios-sim]
+rustflags = ["-C", "target-feature=+fp16"]

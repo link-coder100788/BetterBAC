@@ -8,6 +8,7 @@ pub mod cas;
 pub mod coach;
 pub mod dev;
 pub mod device_calendar;
+pub mod dictation;
 pub mod reminders;
 pub mod settings;
 pub mod tasks;

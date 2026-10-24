@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:apple_coach/apple_coach.dart';
 
+import 'package:betterbac/dictation.dart';
 import 'package:betterbac/main.dart';
 import 'package:betterbac/screens/dev_menu_screen.dart';
 import 'package:betterbac/screens/tutorial_screen.dart';
@@ -11,6 +12,7 @@ import 'package:betterbac/src/rust/api/cas.dart';
 import 'package:betterbac/src/rust/api/coach.dart';
 import 'package:betterbac/src/rust/api/dev.dart';
 import 'package:betterbac/src/rust/api/device_calendar.dart';
+import 'package:betterbac/src/rust/api/dictation.dart';
 import 'package:betterbac/src/rust/api/reminders.dart';
 import 'package:betterbac/src/rust/api/settings.dart';
 import 'package:betterbac/src/rust/api/tasks.dart';
@@ -19,6 +21,7 @@ import 'package:betterbac/src/rust/api/types.dart';
 import 'package:betterbac/src/rust/frb_generated.dart';
 import 'package:betterbac/theme.dart';
 import 'package:flutter/material.dart';
+import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -261,6 +264,21 @@ void main() {
 
     await markAddedToReminders(key: task.key);
     expect((await mostPressingTask())!.alreadyAdded, isTrue);
+  });
+
+  test('Dictation: model installs, loads, and silence stays silent', () async {
+    expect(Dictation.supported, isTrue);
+    final started = DateTime.now();
+    await Dictation.prepare(); // copies the bundled model, then loads it
+    // ignore: avoid_print
+    print('DICTATION_READY ${DateTime.now().difference(started).inMilliseconds} ms');
+    final silence = Int16List(16000 * 2);
+    final t = await transcribe(samples: silence, sampleRate: 16000);
+    expect(t.text, isEmpty, reason: 'Whisper hallucinated: ${t.text}');
+    await expectLater(
+      transcribe(samples: Int16List(1000), sampleRate: 16000),
+      throwsA(anything),
+    ); // too short
   });
 
   testWidgets('Developer menu: seed, inspect, query, clear', (tester) async {

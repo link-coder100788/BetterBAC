@@ -39,7 +39,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.13.0";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -602847411;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -998884898;
 
 // Section: executor
 
@@ -852,6 +852,69 @@ fn wire__crate__api__device_calendar__device_import_window_impl(
         },
     )
 }
+fn wire__crate__api__dictation__dictation_model_installed_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dictation_model_installed",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok =
+                        Ok::<_, ()>(crate::api::dictation::dictation_model_installed(api_dir))?;
+                    std::result::Result::Ok(output_ok)
+                })())
+            }
+        },
+    )
+}
+fn wire__crate__api__dictation__dictation_supported_impl(
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) -> flutter_rust_bridge::for_generated::WireSyncRust2DartSse {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_sync::<flutter_rust_bridge::for_generated::SseCodec, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "dictation_supported",
+            port: None,
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Sync,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            deserializer.end();
+            transform_result_sse::<_, ()>((move || {
+                let output_ok = Ok::<_, ()>(crate::api::dictation::dictation_supported())?;
+                std::result::Result::Ok(output_ok)
+            })())
+        },
+    )
+}
 fn wire__crate__api__types__event_category_label_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1302,6 +1365,43 @@ fn wire__crate__api__app__init_core_impl(
         },
     )
 }
+fn wire__crate__api__dictation__install_dictation_model_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "install_dictation_model",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            let api_bytes = <Vec<u8>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::dictation::install_dictation_model(api_dir, api_bytes)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
 fn wire__crate__api__types__learning_outcome_description_impl(
     ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
     rust_vec_len_: i32,
@@ -1456,6 +1556,41 @@ fn wire__crate__api__cas__list_reflections_impl(
                 transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
                     (move || {
                         let output_ok = crate::api::cas::list_reflections(api_experience_id)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
+        },
+    )
+}
+fn wire__crate__api__dictation__load_dictation_model_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "load_dictation_model",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_dir = <String>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok = crate::api::dictation::load_dictation_model(api_dir)?;
                         std::result::Result::Ok(output_ok)
                     })(),
                 )
@@ -1903,6 +2038,43 @@ fn wire__crate__api__types__strand_label_impl(
                 let output_ok = Ok::<_, ()>(crate::api::types::Strand::label(&api_that))?;
                 std::result::Result::Ok(output_ok)
             })())
+        },
+    )
+}
+fn wire__crate__api__dictation__transcribe_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "transcribe",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_samples = <Vec<i16>>::sse_decode(&mut deserializer);
+            let api_sample_rate = <u32>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, flutter_rust_bridge::for_generated::anyhow::Error>(
+                    (move || {
+                        let output_ok =
+                            crate::api::dictation::transcribe(api_samples, api_sample_rate)?;
+                        std::result::Result::Ok(output_ok)
+                    })(),
+                )
+            }
         },
     )
 }
@@ -2724,6 +2896,13 @@ impl SseDecode for crate::api::types::ExperienceSaved {
     }
 }
 
+impl SseDecode for i16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        deserializer.cursor.read_i16::<NativeEndian>().unwrap()
+    }
+}
+
 impl SseDecode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -2952,6 +3131,18 @@ impl SseDecode for Vec<crate::api::reminders::PlannedNotification> {
             ans_.push(<crate::api::reminders::PlannedNotification>::sse_decode(
                 deserializer,
             ));
+        }
+        return ans_;
+    }
+}
+
+impl SseDecode for Vec<i16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut len_ = <i32>::sse_decode(deserializer);
+        let mut ans_ = Vec::with_capacity(len_ as usize);
+        for idx_ in 0..len_ {
+            ans_.push(<i16>::sse_decode(deserializer));
         }
         return ans_;
     }
@@ -3413,6 +3604,18 @@ impl SseDecode for crate::api::coach::TipKind {
     }
 }
 
+impl SseDecode for crate::api::dictation::Transcript {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_text = <String>::sse_decode(deserializer);
+        let mut var_language = <String>::sse_decode(deserializer);
+        return crate::api::dictation::Transcript {
+            text: var_text,
+            language: var_language,
+        };
+    }
+}
+
 impl SseDecode for crate::api::tutorial::TutorialAccent {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -3549,65 +3752,84 @@ fn pde_ffi_dispatcher_primary_impl(
         20 => wire__crate__api__dev__dev_set_streak_impl(port, ptr, rust_vec_len, data_len),
         21 => wire__crate__api__dev__dev_set_tutorial_seen_impl(port, ptr, rust_vec_len, data_len),
         22 => wire__crate__api__dev__dev_table_impl(port, ptr, rust_vec_len, data_len),
-        26 => wire__crate__api__calendar__events_between_impl(port, ptr, rust_vec_len, data_len),
-        27 => wire__crate__api__cas__export_reflection_impl(port, ptr, rust_vec_len, data_len),
-        28 => wire__crate__api__app__get_achievements_impl(port, ptr, rust_vec_len, data_len),
-        29 => wire__crate__api__app__get_dashboard_impl(port, ptr, rust_vec_len, data_len),
-        30 => wire__crate__api__device_calendar__get_device_calendar_prefs_impl(
+        25 => wire__crate__api__dictation__dictation_model_installed_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        31 => wire__crate__api__cas__get_experience_impl(port, ptr, rust_vec_len, data_len),
-        32 => wire__crate__api__cas__get_reflection_impl(port, ptr, rust_vec_len, data_len),
-        33 => {
+        28 => wire__crate__api__calendar__events_between_impl(port, ptr, rust_vec_len, data_len),
+        29 => wire__crate__api__cas__export_reflection_impl(port, ptr, rust_vec_len, data_len),
+        30 => wire__crate__api__app__get_achievements_impl(port, ptr, rust_vec_len, data_len),
+        31 => wire__crate__api__app__get_dashboard_impl(port, ptr, rust_vec_len, data_len),
+        32 => wire__crate__api__device_calendar__get_device_calendar_prefs_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        33 => wire__crate__api__cas__get_experience_impl(port, ptr, rust_vec_len, data_len),
+        34 => wire__crate__api__cas__get_reflection_impl(port, ptr, rust_vec_len, data_len),
+        35 => {
             wire__crate__api__reminders__get_reminder_prefs_impl(port, ptr, rust_vec_len, data_len)
         }
-        34 => wire__crate__api__settings__get_settings_impl(port, ptr, rust_vec_len, data_len),
-        35 => wire__crate__api__device_calendar__import_device_events_impl(
+        36 => wire__crate__api__settings__get_settings_impl(port, ptr, rust_vec_len, data_len),
+        37 => wire__crate__api__device_calendar__import_device_events_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        36 => wire__crate__api__app__init_app_impl(port, ptr, rust_vec_len, data_len),
-        37 => wire__crate__api__app__init_core_impl(port, ptr, rust_vec_len, data_len),
-        41 => wire__crate__api__cas__list_experiences_impl(port, ptr, rust_vec_len, data_len),
-        42 => wire__crate__api__cas__list_reflections_impl(port, ptr, rust_vec_len, data_len),
-        44 => {
+        38 => wire__crate__api__app__init_app_impl(port, ptr, rust_vec_len, data_len),
+        39 => wire__crate__api__app__init_core_impl(port, ptr, rust_vec_len, data_len),
+        40 => wire__crate__api__dictation__install_dictation_model_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        44 => wire__crate__api__cas__list_experiences_impl(port, ptr, rust_vec_len, data_len),
+        45 => wire__crate__api__cas__list_reflections_impl(port, ptr, rust_vec_len, data_len),
+        46 => wire__crate__api__dictation__load_dictation_model_impl(
+            port,
+            ptr,
+            rust_vec_len,
+            data_len,
+        ),
+        48 => {
             wire__crate__api__tasks__mark_added_to_reminders_impl(port, ptr, rust_vec_len, data_len)
         }
-        45 => {
+        49 => {
             wire__crate__api__tutorial__mark_tutorial_seen_impl(port, ptr, rust_vec_len, data_len)
         }
-        46 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
-        47 => wire__crate__api__tasks__most_pressing_task_impl(port, ptr, rust_vec_len, data_len),
-        49 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
-        50 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
-        51 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
-        52 => wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
+        50 => wire__crate__api__calendar__month_overview_impl(port, ptr, rust_vec_len, data_len),
+        51 => wire__crate__api__tasks__most_pressing_task_impl(port, ptr, rust_vec_len, data_len),
+        53 => wire__crate__api__calendar__refresh_calendars_impl(port, ptr, rust_vec_len, data_len),
+        54 => wire__crate__api__reminders__reminder_plan_impl(port, ptr, rust_vec_len, data_len),
+        55 => wire__crate__api__cas__save_reflection_impl(port, ptr, rust_vec_len, data_len),
+        56 => wire__crate__api__device_calendar__set_device_calendar_prefs_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        53 => {
+        57 => {
             wire__crate__api__calendar__set_event_completed_impl(port, ptr, rust_vec_len, data_len)
         }
-        54 => {
+        58 => {
             wire__crate__api__reminders__set_reminder_prefs_impl(port, ptr, rust_vec_len, data_len)
         }
-        56 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
-        60 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
-        61 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
-        62 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
-        63 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
-        64 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
-        65 => {
+        60 => wire__crate__api__dictation__transcribe_impl(port, ptr, rust_vec_len, data_len),
+        61 => wire__crate__api__tutorial__tutorial_status_impl(port, ptr, rust_vec_len, data_len),
+        65 => wire__crate__api__calendar__upcoming_events_impl(port, ptr, rust_vec_len, data_len),
+        66 => wire__crate__api__calendar__update_event_impl(port, ptr, rust_vec_len, data_len),
+        67 => wire__crate__api__cas__update_experience_impl(port, ptr, rust_vec_len, data_len),
+        68 => wire__crate__api__settings__update_settings_impl(port, ptr, rust_vec_len, data_len),
+        69 => wire__crate__api__web__web_init_core_impl(port, ptr, rust_vec_len, data_len),
+        70 => {
             wire__crate__api__web__web_snapshot_if_changed_impl(port, ptr, rust_vec_len, data_len)
         }
-        66 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
+        71 => wire__crate__api__calendar__workload_outlook_impl(port, ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -3634,24 +3856,25 @@ fn pde_ffi_dispatcher_sync_impl(
             rust_vec_len,
             data_len,
         ),
-        25 => wire__crate__api__types__event_category_label_impl(ptr, rust_vec_len, data_len),
-        38 => {
+        26 => wire__crate__api__dictation__dictation_supported_impl(ptr, rust_vec_len, data_len),
+        27 => wire__crate__api__types__event_category_label_impl(ptr, rust_vec_len, data_len),
+        41 => {
             wire__crate__api__types__learning_outcome_description_impl(ptr, rust_vec_len, data_len)
         }
-        39 => wire__crate__api__types__learning_outcome_number_impl(ptr, rust_vec_len, data_len),
-        40 => {
+        42 => wire__crate__api__types__learning_outcome_number_impl(ptr, rust_vec_len, data_len),
+        43 => {
             wire__crate__api__types__learning_outcome_short_name_impl(ptr, rust_vec_len, data_len)
         }
-        43 => wire__crate__api__types__load_level_label_impl(ptr, rust_vec_len, data_len),
-        48 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
-        55 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
-        57 => {
+        47 => wire__crate__api__types__load_level_label_impl(ptr, rust_vec_len, data_len),
+        52 => wire__crate__api__cas__reflection_prompts_impl(ptr, rust_vec_len, data_len),
+        59 => wire__crate__api__types__strand_label_impl(ptr, rust_vec_len, data_len),
+        62 => {
             wire__crate__api__tutorial__tutorial_status_is_update_impl(ptr, rust_vec_len, data_len)
         }
-        58 => {
+        63 => {
             wire__crate__api__tutorial__tutorial_status_needs_tour_impl(ptr, rust_vec_len, data_len)
         }
-        59 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
+        64 => wire__crate__api__tutorial__tutorial_steps_impl(ptr, rust_vec_len, data_len),
         _ => unreachable!(),
     }
 }
@@ -4619,6 +4842,27 @@ impl flutter_rust_bridge::IntoIntoDart<crate::api::coach::TipKind> for crate::ap
     }
 }
 // Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::dictation::Transcript {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.text.into_into_dart().into_dart(),
+            self.language.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::dictation::Transcript
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::dictation::Transcript>
+    for crate::api::dictation::Transcript
+{
+    fn into_into_dart(self) -> crate::api::dictation::Transcript {
+        self
+    }
+}
+// Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::tutorial::TutorialAccent {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
         match self {
@@ -5027,6 +5271,13 @@ impl SseEncode for crate::api::types::ExperienceSaved {
     }
 }
 
+impl SseEncode for i16 {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        serializer.cursor.write_i16::<NativeEndian>(self).unwrap();
+    }
+}
+
 impl SseEncode for i32 {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -5215,6 +5466,16 @@ impl SseEncode for Vec<crate::api::reminders::PlannedNotification> {
         <i32>::sse_encode(self.len() as _, serializer);
         for item in self {
             <crate::api::reminders::PlannedNotification>::sse_encode(item, serializer);
+        }
+    }
+}
+
+impl SseEncode for Vec<i16> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <i32>::sse_encode(self.len() as _, serializer);
+        for item in self {
+            <i16>::sse_encode(item, serializer);
         }
     }
 }
@@ -5569,6 +5830,14 @@ impl SseEncode for crate::api::coach::TipKind {
             },
             serializer,
         );
+    }
+}
+
+impl SseEncode for crate::api::dictation::Transcript {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <String>::sse_encode(self.text, serializer);
+        <String>::sse_encode(self.language, serializer);
     }
 }
 

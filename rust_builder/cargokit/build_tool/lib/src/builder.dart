@@ -193,6 +193,14 @@ class RustBuilder {
     if (target.android != null) {
       return _buildAndroidEnv();
     }
+    // BetterBAC: candle's gemm has hand-written ARM half-precision kernels
+    // that need the FP16 extension to assemble (they only run after a
+    // runtime CPU check). Cargo is run from ios/Pods, so rust/.cargo/config.toml
+    // isn't picked up; pass the flag here instead.
+    if (target.rust.startsWith('aarch64-apple-ios')) {
+      final name = target.rust.toUpperCase().replaceAll('-', '_');
+      return {'CARGO_TARGET_${name}_RUSTFLAGS': '-C target-feature=+fp16'};
+    }
     return {};
   }
 

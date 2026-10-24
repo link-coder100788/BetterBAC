@@ -43,4 +43,7 @@ flutter_rust_bridge_codegen build-web --release
 echo "==> Building Flutter web app (base href $BASE_HREF)"
 flutter build web --release --base-href "$BASE_HREF" --no-web-resources-cdn
 
+# Dictation is native-only; don't ship the ~80 MB Whisper model to the web.
+rm -f build/web/assets/assets/models/*.gguf
+
 echo "==> Done: build/web"

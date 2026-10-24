@@ -60,6 +60,7 @@ with one tap.
 | ✅ **All 7 learning outcomes at a glance** | Home shows which CAS learning outcomes you've evidenced and how balanced your Creativity, Activity and Service are. |
 | 🚩 **CAS experiences** | Log experiences with strands, dates and your CAS project. Their reflections stay together. |
 | ✍️ **A better reflection editor** | Tag learning outcomes, get writing prompts tailored to them, and never lose work: drafts save automatically. |
+| 🎙️ **Private dictation** | Tap **Dictate** and talk: OpenAI's **Whisper** turns speech into text right on your device, in English, French, Spanish and ~100 other languages. Audio never leaves your phone. |
 | ✨ **Reflection coach** | Instant, private feedback on your writing: a strength score, what you did well, what to improve, and outcomes your writing shows but you forgot to tag. Uses **Apple Intelligence** on supported iPhones and Macs, and BetterBAC's own on-device coach everywhere else. |
 | 📋 **One-tap ManageBAC hand-off** | "Copy & open ManageBAC" copies your reflection and opens your CAS page. Just paste. |
 | 📅 **Every deadline in one calendar** | CAS, EE, TOK, IA, exams and homework, colour-coded, with tick-off. |
@@ -82,7 +83,7 @@ with one tap.
   any phone, not just the newest flagships.
 - **Private by design.** No accounts, no tracking, no server. Students
   (mostly under 18) write personal reflections, and **everything stays on
-  their device**. Even the AI feedback is generated on the device, reminders
+  their device**. The AI feedback and dictation run on the device, reminders
   are scheduled locally, and calendar import is read-only.
 
 ## How it works
@@ -99,6 +100,7 @@ with one tap.
 │ • Calendar providers +       │      │ • Calendar import (EventKit,  │
 │   crunch-week detection      │      │   Android CalendarContract)   │
 │ • Reflection coach engine    │      │ • Local notifications         │
+│ • Whisper dictation (candle) │      │ • Microphone capture          │
 │ • Reminder rules             │      └──────────────────────────────┘
 │ • App tour content           │
 └──────────────────────────────┘
@@ -129,6 +131,12 @@ with one tap.
   on iPhone and Mac, Google Calendar on Android). Imported titles are mapped to
   IB categories (an "exam" counts as an exam), so they feed crunch-week
   detection. A ManageBAC calendar feed would be one more provider.
+- **Whisper in Rust.** Dictation runs OpenAI's multilingual Whisper `base`
+  model with [candle](https://github.com/huggingface/candle), Hugging Face's
+  pure-Rust ML framework, quantized to 8 bits (~80 MB, bundled in the app).
+  Flutter only records the mic. Rust does resampling, log-mel features,
+  language detection and decoding, and a small voice-activity check stops
+  Whisper "hearing" words in silence. About 1 s for 6 s of speech on a Mac's CPU.
 - **Reminders as a plan.** Rust decides what should be scheduled right now:
   notifications and the streak Live Activity. The app re-applies that plan
   whenever data changes, so a reminder that no longer applies disappears on
@@ -146,6 +154,9 @@ with one tap.
   `CalendarContract` (calendar import), via local Swift/Kotlin plugins
 - [flutter_local_notifications](https://pub.dev/packages/flutter_local_notifications)
   for reminders
+- [candle](https://github.com/huggingface/candle) + OpenAI
+  [Whisper base](https://huggingface.co/openai/whisper-base) for dictation;
+  [record](https://pub.dev/packages/record) for the microphone
 
 ## Getting started
 
@@ -163,12 +174,14 @@ with one tap.
 ```bash
 git clone https://github.com/link-coder100788/BetterBAC.git
 cd BetterBAC
+scripts/fetch_whisper_model.sh   # downloads + quantizes the dictation model (~80 MB, once)
 flutter pub get
 flutter run            # pick your device
 ```
 
 The first build compiles the Rust core and SQLite for your device, so it
-takes a few minutes.
+takes a few minutes. The Whisper model isn't in git (it's too big); without
+the fetch step the app still builds, but dictation is unavailable.
 
 ### Develop
 
@@ -219,6 +232,7 @@ http://localhost:8000/BetterBAC/.
 rust/src/
   api/          Functions and types exposed to Dart
     coach.rs    Reflection coach (analysis, rules, AI prompt and merge)
+    dictation.rs  On-device Whisper speech-to-text
     reminders.rs  Notification + Live Activity rules
     device_calendar.rs  Apple / Google Calendar import
     tutorial.rs App tour content and versioning
@@ -254,6 +268,10 @@ integration_test/
 ## License
 
 [MIT](LICENSE) © 2026 Noah Pegna
+
+Dictation uses OpenAI's [Whisper base](https://huggingface.co/openai/whisper-base)
+model and tokenizer (Apache-2.0) and the mel filterbank from
+[candle](https://github.com/huggingface/candle) (MIT / Apache-2.0).
 
 ---
 

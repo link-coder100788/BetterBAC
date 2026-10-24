@@ -8,6 +8,7 @@ import '../src/rust/api/types.dart';
 import '../theme.dart';
 import '../widgets/chunky.dart';
 import '../widgets/coach_panel.dart';
+import '../widgets/dictation_bar.dart';
 import '../widgets/confirm.dart';
 
 /// Write or edit a reflection, then hand it to ManageBAC in one tap.
@@ -263,11 +264,16 @@ class _ReflectionEditorState extends State<ReflectionEditor> {
               style: const TextStyle(fontSize: 16, height: 1.5),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 6, right: 4),
-              child: Text(
-                '$_words words',
-                textAlign: TextAlign.right,
-                style: const TextStyle(color: Palette.muted),
+              padding: const EdgeInsets.only(top: 8, right: 4),
+              child: Row(
+                children: [
+                  DictationBar(controller: _body),
+                  const Spacer(),
+                  Text(
+                    '$_words words',
+                    style: const TextStyle(color: Palette.muted),
+                  ),
+                ],
               ),
             ),
             const SizedBox(height: 16),

@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Reschedule reminders after a reboot (flutter_local_notifications). -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- On-device dictation (Whisper). -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
         android:label="betterbac"
         android:name="${applicationName}"

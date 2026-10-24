@@ -1,0 +1,15 @@
+# Build-time tool: converts OpenAI's whisper-base safetensors into an
+# 8-bit GGUF file (~80 MB) for the app to bundle. Run via
+# scripts/fetch_whisper_model.sh; not part of the app.
+[package]
+name = "whisper_quantize"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[dependencies]
+anyhow = "1"
+candle-core = "0.11.0"
+
+[workspace]

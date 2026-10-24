@@ -201,6 +201,13 @@ class AndroidEnvironment {
       final pageSizeArgsString = pageSizeArgs.join("\x1f");
 
       rustFlags = '$rustFlags$pageSizeArgsString';
+      // BetterBAC: candle's gemm has hand-written ARM half-precision kernels
+      // that need the FP16 extension to assemble (they're only run after a
+      // runtime CPU check). This env var overrides .cargo/config.toml, so the
+      // flag has to be added here for Android.
+      if (target.android == "arm64-v8a") {
+        rustFlags = '$rustFlags\x1f-C\x1ftarget-feature=+fp16';
+      }
     } else {
       rustFlags = '$rustFlags-L\x1f$workaroundDir';
     }

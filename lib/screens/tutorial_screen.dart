@@ -235,6 +235,7 @@ IconData _icon(String name) => switch (name) {
   'warning' => Icons.warning_rounded,
   'emoji_events' => Icons.emoji_events_rounded,
   'lock' => Icons.lock_rounded,
+  'mic' => Icons.mic_rounded,
   'event_repeat' => Icons.event_repeat_rounded,
   'notifications_active' => Icons.notifications_active_rounded,
   _ => Icons.star_rounded,
@@ -259,6 +260,7 @@ Widget _illustration(TutorialStep step) => switch (step.id) {
   'outcomes' => const _OutcomesDemo(),
   'experiences' => const _StrandsDemo(),
   'reflections' => const _ReflectionDemo(),
+  'dictation' => const _DictationDemo(),
   'coach' => const _CoachDemo(),
   'managebac' => const _ManageBacDemo(),
   'calendar' => const _CalendarDemo(),
@@ -477,6 +479,54 @@ class _ReflectionDemo extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _DictationDemo extends StatelessWidget {
+  const _DictationDemo();
+
+  @override
+  Widget build(BuildContext context) {
+    // A mic with sound waves, and the words it produced.
+    const heights = <double>[10, 22, 34, 18, 40, 26, 14, 30, 20, 12];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: const BoxDecoration(
+                color: Palette.blue,
+                shape: BoxShape.circle,
+                boxShadow: [BoxShadow(color: Palette.blueLip, offset: Offset(0, 5))],
+              ),
+              child: const Icon(Icons.mic_rounded, color: Colors.white, size: 38),
+            ),
+            const SizedBox(width: 16),
+            for (final h in heights)
+              Container(
+                width: 6,
+                height: h,
+                margin: const EdgeInsets.symmetric(horizontal: 2),
+                decoration: BoxDecoration(
+                  color: Palette.blue.withValues(alpha: 0.6),
+                  borderRadius: BorderRadius.circular(3),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        const ChunkyCard(
+          child: Text(
+            '"Today I volunteered at the food bank, and I learned that small acts of kindness really matter."',
+            style: TextStyle(fontSize: 15, height: 1.4),
+          ),
+        ),
+      ],
     );
   }
 }

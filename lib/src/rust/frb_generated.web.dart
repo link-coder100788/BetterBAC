@@ -12,6 +12,7 @@ import 'api/cas.dart';
 import 'api/coach.dart';
 import 'api/dev.dart';
 import 'api/device_calendar.dart';
+import 'api/dictation.dart';
 import 'api/reminders.dart';
 import 'api/settings.dart';
 import 'api/tasks.dart';
@@ -164,6 +165,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ExperienceSaved dco_decode_experience_saved(dynamic raw);
 
   @protected
+  int dco_decode_i_16(dynamic raw);
+
+  @protected
   int dco_decode_i_32(dynamic raw);
 
   @protected
@@ -219,6 +223,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   List<PlannedNotification> dco_decode_list_planned_notification(dynamic raw);
+
+  @protected
+  List<int> dco_decode_list_prim_i_16_loose(dynamic raw);
+
+  @protected
+  Int16List dco_decode_list_prim_i_16_strict(dynamic raw);
+
+  @protected
+  List<int> dco_decode_list_prim_u_8_loose(dynamic raw);
 
   @protected
   Uint8List dco_decode_list_prim_u_8_strict(dynamic raw);
@@ -318,6 +331,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   TipKind dco_decode_tip_kind(dynamic raw);
+
+  @protected
+  Transcript dco_decode_transcript(dynamic raw);
 
   @protected
   TutorialAccent dco_decode_tutorial_accent(dynamic raw);
@@ -502,6 +518,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   ExperienceSaved sse_decode_experience_saved(SseDeserializer deserializer);
 
   @protected
+  int sse_decode_i_16(SseDeserializer deserializer);
+
+  @protected
   int sse_decode_i_32(SseDeserializer deserializer);
 
   @protected
@@ -569,6 +588,15 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   List<PlannedNotification> sse_decode_list_planned_notification(
     SseDeserializer deserializer,
   );
+
+  @protected
+  List<int> sse_decode_list_prim_i_16_loose(SseDeserializer deserializer);
+
+  @protected
+  Int16List sse_decode_list_prim_i_16_strict(SseDeserializer deserializer);
+
+  @protected
+  List<int> sse_decode_list_prim_u_8_loose(SseDeserializer deserializer);
 
   @protected
   Uint8List sse_decode_list_prim_u_8_strict(SseDeserializer deserializer);
@@ -680,6 +708,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   TipKind sse_decode_tip_kind(SseDeserializer deserializer);
+
+  @protected
+  Transcript sse_decode_transcript(SseDeserializer deserializer);
 
   @protected
   TutorialAccent sse_decode_tutorial_accent(SseDeserializer deserializer);
@@ -898,6 +929,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   );
 
   @protected
+  void sse_encode_i_16(int self, SseSerializer serializer);
+
+  @protected
   void sse_encode_i_32(int self, SseSerializer serializer);
 
   @protected
@@ -986,6 +1020,21 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
     List<PlannedNotification> self,
     SseSerializer serializer,
   );
+
+  @protected
+  void sse_encode_list_prim_i_16_loose(
+    List<int> self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_i_16_strict(
+    Int16List self,
+    SseSerializer serializer,
+  );
+
+  @protected
+  void sse_encode_list_prim_u_8_loose(List<int> self, SseSerializer serializer);
 
   @protected
   void sse_encode_list_prim_u_8_strict(
@@ -1136,6 +1185,9 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
 
   @protected
   void sse_encode_tip_kind(TipKind self, SseSerializer serializer);
+
+  @protected
+  void sse_encode_transcript(Transcript self, SseSerializer serializer);
 
   @protected
   void sse_encode_tutorial_accent(

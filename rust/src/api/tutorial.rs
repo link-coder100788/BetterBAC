@@ -18,7 +18,7 @@ use crate::progress;
 use crate::state::{self, with_core};
 
 /// Increase whenever steps are added.
-const TUTORIAL_VERSION: u32 = 4;
+const TUTORIAL_VERSION: u32 = 5;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TutorialAccent {
@@ -151,6 +151,16 @@ fn all_steps() -> Vec<TutorialStep> {
             "Write reflections anywhere",
             "Tag learning outcomes, tap \"Need inspiration?\" for prompts, and stop worrying about losing work: drafts save automatically when you leave.",
         ),
+        TutorialStep {
+            since: 5,
+            ..step(
+                "dictation",
+                Blue,
+                "mic",
+                "Just say it",
+                "Tap Dictate in the reflection editor and talk. Whisper turns your speech into text right on your device, in English, French, Spanish and many more. Your voice never leaves your phone.",
+            )
+        },
         step(
             "coach",
             Purple,
